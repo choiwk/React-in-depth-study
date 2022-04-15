@@ -1,14 +1,18 @@
 import React from 'react';
 
 import { Text, Input, Grid, Button } from '../elements/ImportBridge';
-import { getCookie, setCookie } from '../../shared/Cookie';
+import { getCookie, setCookie, deleteCookie } from '../../shared/Cookie';
 
 const Login = () => {
-  console.log(getCookie('user_id'));
+  console.log(getCookie('user_pwd'));
   const loginFunc = () => {
-    setCookie('user_id', 'perl', 3);
-    setCookie('user_pwd', 'powsa76', 3);
+    setCookie('user_id', 'whdlzh', 3);
+    setCookie('user_pwd', 'dbk03053', 3);
+    setCookie('user_name', '최원근', 10);
+    setCookie('user_birth', '960220', 1);
   };
+
+  deleteCookie();
   return (
     <React.Fragment>
       <Grid padding="16px">
@@ -35,7 +39,7 @@ const Login = () => {
           type="button"
           text="로그인버튼"
           _onClick={() => {
-            loginFunc();
+            deleteCookie('user_name');
           }}
         >
           확인
