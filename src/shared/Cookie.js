@@ -6,7 +6,7 @@ const getCookie = (name) => {
   let parts = value.split('; ' + name + '=');
   // value를 return!
   if (parts.length === 2) {
-    return parts;
+    return parts.pop().split(';').shift();
   }
 };
 
@@ -16,7 +16,12 @@ const setCookie = (name, value, exp = 5) => {
   // 날짜를 만들어줍니다.
   date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
   // 저장!
-  document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+  document.cookie = `${name}=${value}; expires=${date.toUTCString()};path=/`;
 };
 
-export { getCookie, setCookie };
+const deleteCookie = (name) => {
+  let oldDate = new Date('2021-01-01').toUTCString();
+  document.cookie = name + '=; expires=' + oldDate;
+};
+
+export { getCookie, setCookie, deleteCookie };
