@@ -15,8 +15,8 @@ const PostList = () => {
 };
 
 const Container = styled.div`
-  width: 50%;
-  margin: 0 auto;
+  margin: 30px auto;
+  width: 40%;
 `;
 
 export default PostList;

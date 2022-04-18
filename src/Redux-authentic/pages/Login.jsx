@@ -1,10 +1,10 @@
-import React from 'react';
+import styled from 'styled-components';
 
 import { Text, Input, Grid, Button } from '../elements/ImportBridge';
 import { getCookie, setCookie, deleteCookie } from '../../shared/Cookie';
 
 const Login = () => {
-  console.log(getCookie('user_pwd'));
+  console.log(getCookie('user_id'));
   const loginFunc = () => {
     setCookie('user_id', 'whdlzh', 3);
     setCookie('user_pwd', 'dbk03053', 3);
@@ -14,7 +14,7 @@ const Login = () => {
 
   deleteCookie();
   return (
-    <React.Fragment>
+    <LoginContainer>
       <Grid padding="16px">
         <Text size={'32px'} bold>
           로그인
@@ -39,14 +39,19 @@ const Login = () => {
           type="button"
           text="로그인버튼"
           _onClick={() => {
-            deleteCookie('user_name');
+            loginFunc();
           }}
         >
           확인
         </Button>
       </Grid>
-    </React.Fragment>
+    </LoginContainer>
   );
 };
+
+const LoginContainer = styled.div`
+  margin: 30px auto;
+  width: 40%;
+`;
 
 export default Login;
