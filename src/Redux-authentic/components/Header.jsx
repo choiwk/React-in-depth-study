@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Grid, Text, Button } from '../elements/ImportBridge';
-import { getCookie, setCookie, deleteCookie } from '../../shared/Cookie';
+import { getCookie, deleteCookie } from '../../shared/Cookie';
 
 const Header = () => {
   const [is_login, setIsLogin] = useState(false);
