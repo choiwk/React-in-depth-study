@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 
 import { Grid, Text, Button } from '../elements/ImportBridge';
-import { getCookie, deleteCookie } from '../../shared/Cookie';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators as userActions } from '../redux/modules/user';
 
 const Header = () => {
-  const [is_login, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    let cookie = getCookie('user_id');
-    console.log(cookie);
-    if (cookie) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, []);
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
 
   const locatedOnLogin = () => {
     document.location.href = '/login';
@@ -27,7 +19,7 @@ const Header = () => {
 
   if (is_login) {
     return (
-      <HeaderContainer>
+      <>
         <Grid is_flex padding="4px 16px">
           <Grid>
             <Text margin="0px" size="24px" bold>
@@ -36,15 +28,17 @@ const Header = () => {
           </Grid>
 
           <Grid is_flex>
-            <Button text="내정보" _onClick={locatedOnLogin}></Button>
-            <Button text="알림" _onClick={locatedOnSignUp}></Button>
+            <Button text="내정보"></Button>
+            <Button text="알림"></Button>
             <Button
               text="로그아웃"
-              _onClick={() => deleteCookie('user_id')}
+              _onClick={() => {
+                dispatch(userActions.logOut({}));
+              }}
             ></Button>
           </Grid>
         </Grid>
-      </HeaderContainer>
+      </>
     );
   }
 
@@ -66,7 +60,4 @@ const Header = () => {
   );
 };
 
-const HeaderContainer = styled.header`
-  border: 1px solid red;
-`;
 export default Header;
