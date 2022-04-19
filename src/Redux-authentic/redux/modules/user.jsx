@@ -20,21 +20,26 @@ const initialState = {
 };
 
 //reducer
-export default handleActions({
-  //TODO: reducer안에서 일어나는 작업의 불변성 유지 작업 = immer의 produce()
-  [LOG_IN]: (state, action) =>
-    produce(
-      state,
-      (draft) => {
+export default handleActions(
+  {
+    //? reducer안에서 일어나는 작업의 불변성 유지 작업 = immer의 produce()
+    [LOG_IN]: (state, action) =>
+      produce(state, (draft) => {
         setCookie('is_login', 'success');
         draft.user = action.payload.user;
         draft.is_login = true;
-      },
-      initialState
-    ),
-  [LOG_OUT]: (state, action) => {},
-  [GET_USER]: (state, action) => {},
-});
+      }),
+    [LOG_OUT]: (state, action) => {
+      produce(state, (draft) => {
+        deleteCookie('is_login');
+        draft.user = 'null';
+        draft.is_login = false;
+      });
+    },
+    [GET_USER]: (state, action) => {},
+  },
+  initialState
+);
 
 //action creator export
 const actionCreators = {
