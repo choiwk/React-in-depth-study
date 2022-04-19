@@ -2,18 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Text, Input, Grid, Button } from '../elements/ImportBridge';
-import { getCookie, setCookie, deleteCookie } from '../../shared/Cookie';
+
+import { useDispatch } from 'react-redux';
+import { actionCreators as userActions } from '../redux/modules/user';
 
 const Login = () => {
-  console.log(getCookie('user_id'));
+  const dispatch = useDispatch();
   const loginFunc = () => {
-    setCookie('user_id', 'whdlzh', 3);
-    setCookie('user_pwd', 'dbk03053', 3);
-    setCookie('user_name', '최원근', 10);
-    setCookie('user_birth', '960220', 1);
+    dispatch(userActions.loginAction({ user_name: 'wonkeunChoi' }));
   };
 
-  deleteCookie();
   return (
     <LoginContainer>
       <Grid padding="16px">
