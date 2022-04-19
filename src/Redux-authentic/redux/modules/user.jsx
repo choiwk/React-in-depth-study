@@ -1,6 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 
+import { setCookie, getCookie, deleteCookie } from '../../../shared/Cookie';
+
 //actions
 const LOG_IN = 'LOG_IN';
 const LOG_OUT = 'LOG_OUT';
@@ -19,8 +21,26 @@ const initialState = {
 
 //reducer
 export default handleActions({
-  [LOG_IN]: (state, action) => produce(state, (draft) => {}),
   //TODO: reducer안에서 일어나는 작업의 불변성 유지 작업 = immer의 produce()
+  [LOG_IN]: (state, action) =>
+    produce(
+      state,
+      (draft) => {
+        setCookie('is_login', 'success');
+        draft.user = action.payload.user;
+        draft.is_login = true;
+      },
+      initialState
+    ),
   [LOG_OUT]: (state, action) => {},
   [GET_USER]: (state, action) => {},
 });
+
+//action creator export
+const actionCreators = {
+  logIn,
+  logOut,
+  getUser,
+};
+
+export { actionCreators };
