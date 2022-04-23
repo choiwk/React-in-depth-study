@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Grid, Text, Input, Button } from '../elements/ImportBridge';
 
+import { useDispatch } from 'react-redux';
+import { actionCreators as userActions } from '../redux/modules/user';
+
 const SignUp = () => {
+  const [id, setId] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [pwdCheck, setPwdCheck] = useState('');
+  const [userName, setUserName] = useState('');
+
+  const dispatch = useDispatch();
+
+  const signUpCheck = () => {
+    if (pwd !== pwdCheck) {
+      alert('비밀번호를 다시 확인해주세요.');
+      return;
+    }
+    if (id === '' || pwd === '' || userName === '') {
+      alert('회원 양식에 적합하지 않습니다.');
+      return;
+    }
+
+    dispatch(userActions.signupFB(id, pwd, userName));
+  };
   return (
     <SignUpContainer>
       <Grid padding="16px">
@@ -11,37 +33,35 @@ const SignUp = () => {
         </Text>
         <Grid padding="16px 0px">
           <Input
-            label="아이디"
-            placeholder="아이디를 입력해주세요."
-            _onChange={() => console.log('아이디 입력')}
+            label="이메일"
+            placeholder="이메일을 입력해주세요."
+            _onChange={(e) => setId(e.target.value)}
           ></Input>
         </Grid>
         <Grid padding="16px 0px">
           <Input
             label="닉네임"
             placeholder="닉네임을 입력해주세요."
-            _onChange={() => console.log('닉네임 입력')}
+            _onChange={(e) => setUserName(e.target.value)}
           ></Input>
         </Grid>
         <Grid padding="16px 0px">
           <Input
+            type="password"
             label="비밀번호"
-            placeholder="비밀번호를 입력해주세요."
-            _onChange={() => console.log('비밀번호 입력')}
+            placeholder="6글자 이상 비밀번호를 입력해주세요."
+            _onChange={(e) => setPwd(e.target.value)}
           ></Input>
         </Grid>
         <Grid padding="16px 0px">
           <Input
+            type="password"
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 입력해주세요."
-            _onChange={() => console.log('비밀번호 재입력')}
+            _onChange={(e) => setPwdCheck(e.target.value)}
           ></Input>
         </Grid>
-        <Button
-          type="button"
-          text="회원가입 버튼"
-          _onClick={() => console.log('회원가입 버튼 클릭')}
-        >
+        <Button type="button" text="회원가입 버튼" _onClick={signUpCheck}>
           회원가입
         </Button>
       </Grid>
