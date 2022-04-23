@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PostList from '../Redux-authentic/pages/PostList';
 import SignUp from '../Redux-authentic/pages/SignUp';
 import Login from '../Redux-authentic/pages/Login';
