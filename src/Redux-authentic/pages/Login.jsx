@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { Text, Input, Grid, Button } from '../elements/ImportBridge';
@@ -7,9 +7,16 @@ import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 
 const Login = () => {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
   const loginFunc = () => {
-    dispatch(userActions.loginAction({ user_name: 'wonkeunChoi' }));
+    if (id === '' || password === '') {
+      alert('입력 형식이 올바르지 않습니다.');
+      return;
+    }
+    dispatch(userActions.loginFB(id, password));
   };
 
   return (
@@ -21,9 +28,9 @@ const Login = () => {
         <Grid padding="16px 0px">
           <Input
             type="id"
-            label="아이디"
-            placeholder="아이디를 입력해주세요."
-            _onChange={() => console.log('아이디를 입력했어요')}
+            label="이메일"
+            placeholder="이메일을 입력해주세요."
+            _onChange={(e) => setId(e.target.value)}
           ></Input>
         </Grid>
         <Grid padding="16px 0px">
@@ -31,7 +38,7 @@ const Login = () => {
             type="password"
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요."
-            _onChange={() => console.log('비밀번호를 입력했어요')}
+            _onChange={(e) => setPassword(e.target.value)}
           ></Input>
         </Grid>
         <Button
