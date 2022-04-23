@@ -2,16 +2,17 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 
 import { setCookie, deleteCookie } from '../../../shared/Cookie';
-
+import { auth } from '../../../shared/Firebase';
+console.log(auth);
 //? actions
-const LOG_IN = 'LOG_IN';
 const LOG_OUT = 'LOG_OUT';
 const GET_USER = 'GET_USER';
+const SET_USER = 'SET_USER';
 
 //? action creators
-const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
+const setUser = createAction(SET_USER, (user) => ({ user }));
 
 //? initialState = default props
 const initialState = {
@@ -19,11 +20,28 @@ const initialState = {
   is_login: false, //웹사이트 뜨자마자 로그인 상태 false
 };
 
+const signupFB = (id, pwd, userName) => {
+  return function(dispatch, getState, { history }) {
+    auth
+      .createUserWithEmailAndPassword(id, pwd)
+      .then((user) => {
+        auth.currentUser.updateProfile({ displayName: userName });
+      })
+      .then(() => {
+        dispatch(setUser({ userName: userName, id: id, userProfile: '' }));
+        history.push('/');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+};
+
 //? middlewares actions (page)
 const loginAction = (user) => {
   return function(dispatch, getState, { history }) {
     console.log(history);
-    dispatch(logIn(user));
+    dispatch(SET_USER(user));
     history.push('/');
   };
 };
@@ -32,7 +50,7 @@ const loginAction = (user) => {
 export default handleActions(
   {
     //' reducer안에서 일어나는 작업의 불변성 유지 작업 = immer의 produce()
-    [LOG_IN]: (state, action) =>
+    [SET_USER]: (state, action) =>
       produce(state, (draft) => {
         setCookie('is_login', 'success');
         draft.user = action.payload.user;
@@ -53,10 +71,11 @@ export default handleActions(
 
 //? action creator export
 const actionCreators = {
-  logIn,
   logOut,
   getUser,
+  setUser,
   loginAction,
+  signupFB,
 };
 
 export { actionCreators };
