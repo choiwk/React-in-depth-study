@@ -17,3 +17,35 @@
 
 - 로그인
 - 회원가입
+
+
+### 로그인/회원가입 firebase를 이용하여 유저 관리하기.
+* 로그인
+1. 웹 저장소 토큰 쿠키 생성 및 삭제 해보기.
+2. 헤더 분기 및 리덕스 사용하기.
+3. 유저 모듈 만들기
+4. 리덕스 스토어 만들기
+5. 스토어 주입하기
+
+* 회원가입
+1. firebase.js에 만들어둔 auth 가져오기
+2. 리덕스에서 signupFB 함수 만들기
+3. auth.createUserWithEmailAndPassword()로 가입 시키기
+4. Signup 컴포넌트에서 signupFB를 호출하기.
+5. 가입한 후, display_name 바로 업데이트하기
+6. 사용자 정보 업데이트 후에 메인 페이지로 이동하기
+```js
+//firebase v8
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+const firebaseConfig = { 
+..code
+}
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+export { auth };
+```
