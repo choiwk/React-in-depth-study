@@ -37,12 +37,19 @@ const signupFB = (id, pwd, userName) => {
   };
 };
 
-//? middlewares actions (page)
-const loginAction = (user) => {
+const loginFB = (id, pwd) => {
   return function(dispatch, getState, { history }) {
-    console.log(history);
-    dispatch(SET_USER(user));
-    history.push('/');
+    auth
+      .signInWithEmailAndPassword(id, pwd)
+      .then((user) => {
+        dispatch(
+          setUser({ userName: user.user.displayName, id: id, userProfile: '' })
+        );
+        history.push('/');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 };
 
@@ -74,8 +81,8 @@ const actionCreators = {
   logOut,
   getUser,
   setUser,
-  loginAction,
   signupFB,
+  loginFB,
 };
 
 export { actionCreators };
