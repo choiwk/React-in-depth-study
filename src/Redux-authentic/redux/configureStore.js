@@ -8,7 +8,7 @@ import User from './modules/user';
 export const history = createBrowserHistory(); // 우리의 history 객체 생성함.
 
 const rootReducer = combineReducers({
-  // 우리가 user.jsx에서 만든 reducer을 combineReducers()를 이용해 user에 넣었음.
+  // 우리가 user.js에서 만든 reducer을 combineReducers()를 이용해 user에 넣었음.
   user: User,
   router: connectRouter(history), // redux에 history를 넣기 : 자신이 만든 history와 router가 연결됨.
   // 즉 자신의 브라우저 history 정보가 store에 저장됨.
@@ -31,7 +31,7 @@ if (env === 'development') {
   const { logger } = require('redux-logger'); // require()은 import보다 정보 공유도가 더 낮은 패키지를 가져올때 사용.
   middlewares.push(logger); // [thunk, logger...]
 }
- 
+
 //! redux-devtool
 const composeEnhancers =
   // 지금 환경이 브라우저가 아닐때도 있다. 브라우저가 아니더라도 Javascript 엔진은 동작한다, 브라우저가 아닐때는 window라는 객체가 없기 때문에

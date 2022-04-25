@@ -3,7 +3,8 @@ import { produce } from 'immer';
 
 import { setCookie, deleteCookie } from '../../../shared/Cookie';
 import { auth } from '../../../shared/Firebase';
-console.log(auth);
+import firebase from 'firebase/app';
+
 //? actions
 const LOG_OUT = 'LOG_OUT';
 const GET_USER = 'GET_USER';
@@ -22,18 +23,28 @@ const initialState = {
 
 const signupFB = (id, pwd, userName) => {
   return function(dispatch, getState, { history }) {
-    auth
-      .createUserWithEmailAndPassword(id, pwd)
-      .then((user) => {
-        auth.currentUser.updateProfile({ displayName: userName });
-      })
-      .then(() => {
-        dispatch(setUser({ userName: userName, id: id, userProfile: '' }));
-        history.push('/');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+      auth
+        .createUserWithEmailAndPassword(id, pwd)
+        .then((user) => {
+          auth.currentUser.updateProfile({
+            displayName: userName,
+          });
+        })
+        .then(() => {
+          dispatch(
+            setUser({
+              userName: userName,
+              id: id,
+              userProfile: '',
+            })
+          );
+          history.push('/');
+        })
+        .catch((error) => {
+          alert(`error! : ${error}`);
+        });
+    });
   };
 };
 
