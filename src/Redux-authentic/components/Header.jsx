@@ -5,12 +5,15 @@ import { Grid, Text, Button } from '../elements/ImportBridge';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 import { history } from '../redux/configureStore';
+import { apiKey } from '../../shared/Firebase';
 
 const Header = () => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
 
-  if (is_login) {
+  if (is_login && is_session) {
     return (
       <>
         <Grid is_flex padding="4px 16px">
