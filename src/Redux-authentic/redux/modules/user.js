@@ -69,6 +69,29 @@ const loginFB = (id, pwd) => {
   };
 };
 
+const loginCheckFB = () => {
+  // firebase에 로그인이 되어있으니까 firebase의 인증 함수 onAuthStateChanged()를 사용해서
+  // user의 값들을 다시 redux에 넣어주는 함수.
+  return function(dispatch, getState) {
+    auth.onAuthStateChanged((user) => {
+      //?onAuthStateChanged : 유저가 있는가 없는가 판별 함수.
+      if (user) {
+        dispatch(
+          setUser({
+            userName: user.displayName,
+            userProfile: '',
+            id: user.email,
+            uid: user.uid,
+          })
+        );
+      } else {
+        // firebase에 사용자 로그인 여부가 없을때 Redux에서도 로그아웃을 해준다.
+        dispatch(logOut());
+      }
+    });
+  };
+};
+
 //? reducer
 export default handleActions(
   {
@@ -99,6 +122,7 @@ const actionCreators = {
   setUser,
   signupFB,
   loginFB,
+  loginCheckFB,
 };
 
 export { actionCreators };
