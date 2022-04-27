@@ -5,6 +5,7 @@ import { Text, Input, Grid, Button } from '../elements/ImportBridge';
 
 import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
+import { emailCheck } from '../../shared/common';
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -12,9 +13,13 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const loginFunc = () => {
+    console.log(id);
     if (id === '' || password === '') {
       alert('입력 형식이 올바르지 않습니다.');
       return;
+    }
+    if (!emailCheck(id)) {
+      alert('메일 형식이 맞지 않습니다');
     }
     dispatch(userActions.loginFB(id, password));
   };

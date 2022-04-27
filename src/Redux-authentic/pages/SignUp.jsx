@@ -4,7 +4,7 @@ import { Grid, Text, Input, Button } from '../elements/ImportBridge';
 
 import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
-
+import { emailCheck } from '../../shared/common';
 const SignUp = () => {
   const [id, setId] = useState('');
   const [pwd, setPwd] = useState('');
@@ -19,8 +19,11 @@ const SignUp = () => {
       return;
     }
     if (id === '' || pwd === '' || userName === '') {
-      alert('회원 양식에 적합하지 않습니다.');
+      alert('양식에 누락된 사항이 있습니다.');
       return;
+    }
+    if (!emailCheck(id)) {
+      alert('이메일 형식이 맞지 않습니다.');
     }
 
     dispatch(userActions.signupFB(id, pwd, userName));
@@ -61,7 +64,7 @@ const SignUp = () => {
             _onChange={(e) => setPwdCheck(e.target.value)}
           ></Input>
         </Grid>
-        <Button type="button" text="회원가입 버튼" _onClick={signUpCheck}>
+        <Button type="button" text="회원가입하기" _onClick={signUpCheck}>
           회원가입
         </Button>
       </Grid>
