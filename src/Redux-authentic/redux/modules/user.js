@@ -92,6 +92,15 @@ const loginCheckFB = () => {
   };
 };
 
+const logOutFB = () => {
+  return function(dispatch, getState, { history }) {
+    auth.signOut().then(() => {
+      dispatch(logOut());
+      history.replace('/');
+    });
+  };
+};
+
 //? reducer
 export default handleActions(
   {
@@ -123,6 +132,7 @@ const actionCreators = {
   signupFB,
   loginFB,
   loginCheckFB,
+  logOutFB,
 };
 
 export { actionCreators };
