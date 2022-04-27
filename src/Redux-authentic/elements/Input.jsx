@@ -28,4 +28,11 @@ const ElInput = styled.input`
   box-sizing: border-box;
 `;
 
+const ElTextArea = styled.textarea`
+  border: 1px solid #212121;
+  width: 100%;
+  padding: 12px 4px;
+  box-sizing: border-box;
+`;
+
 export default Input;
