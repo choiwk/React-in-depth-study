@@ -1,11 +1,11 @@
-import { createActions, handleActions } from 'redux-actions';
+import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 
 const SET_POST = 'SET_POST';
 const ADD_POST = 'ADD_POST';
 
-const setPost = createActions(SET_POST, (post_list) => ({ post_list }));
-const addPost = createActions(ADD_POST, (post) => ({ post }));
+const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
+const addPost = createAction(ADD_POST, (post) => ({ post }));
 
 const initialState = {
   list: [],
