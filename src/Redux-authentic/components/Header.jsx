@@ -15,32 +15,7 @@ const Header = () => {
 
   if (is_login && is_session) {
     return (
-      <>
-        <Grid is_flex padding="4px 16px">
-          <Grid>
-            <Text margin="0px" size="24px" bold>
-              헬로
-            </Text>
-          </Grid>
-
-          <Grid is_flex>
-            <Button text="내정보"></Button>
-            <Button text="알림"></Button>
-            <Button
-              text="로그아웃"
-              _onClick={() => {
-                dispatch(userActions.logOutFB());
-              }}
-            ></Button>
-          </Grid>
-        </Grid>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Grid is_flex padding="4px 16px">
+      <Grid is_flex padding="4px 0">
         <Grid>
           <Text margin="0px" size="24px" bold>
             헬로
@@ -48,17 +23,35 @@ const Header = () => {
         </Grid>
 
         <Grid is_flex>
+          <Button text="내정보"></Button>
+          <Button text="알림"></Button>
           <Button
-            text="로그인"
-            _onClick={() => history.push('/login')}
-          ></Button>
-          <Button
-            text="회원가입"
-            _onClick={() => history.push('/signup')}
+            text="로그아웃"
+            _onClick={() => {
+              dispatch(userActions.logOutFB());
+            }}
           ></Button>
         </Grid>
       </Grid>
-    </>
+    );
+  }
+
+  return (
+    <Grid is_flex padding="4px 0">
+      <Grid>
+        <Text margin="0px" size="24px" bold>
+          헬로
+        </Text>
+      </Grid>
+
+      <Grid is_flex>
+        <Button text="로그인" _onClick={() => history.push('/login')}></Button>
+        <Button
+          text="회원가입"
+          _onClick={() => history.push('/signup')}
+        ></Button>
+      </Grid>
+    </Grid>
   );
 };
 
