@@ -4,7 +4,7 @@ import { Grid, Image, Text } from '../elements/ImportBridge';
 
 const Post = (props) => {
   return (
-    <React.Fragment>
+    <>
       <Grid>
         <Grid is_flex>
           <Image shape="circle" src={props.src} />
@@ -29,7 +29,7 @@ const Post = (props) => {
       <div>contents</div>
       <div>image</div>
       <div>comment ctn</div>
-    </React.Fragment>
+    </>
   );
 };
 
