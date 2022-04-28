@@ -49,3 +49,18 @@ const auth = firebase.auth();
 
 export { auth };
 ```
+
+### 파이어베이스 FireStore 데이터베이스 작성 후 연동하기.
+```js 
+import 'firebase/firestore';
+
+const firebaseConfig = { ... }
+
+firebase.initializeApp(firebaseConfig);
+...
+const firestore = firebase.firestore();
+
+export { auth, apiKey, firestore };
+```
+
+
