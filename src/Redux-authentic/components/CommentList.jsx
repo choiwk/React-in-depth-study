@@ -11,7 +11,6 @@ const CommentList = () => {
 export default CommentList;
 
 const CommentItem = (props) => {
-  console.log(props);
   return (
     <>
       <Grid></Grid>

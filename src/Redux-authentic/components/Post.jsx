@@ -12,7 +12,7 @@ const Post = (props) => {
           <Text>{props.insert_dt}</Text>
         </Grid>
 
-        <Grid padding="16px">
+        <Grid padding="16px 0">
           <Text>{props.contents}</Text>
         </Grid>
 
@@ -42,8 +42,8 @@ Post.defaultProps = {
       'https://www.notion.so/f7be487bc3aa4842aaab051497fba7cf#500e914360c046c1b1b68c2b26142f0f',
   },
   image_url:
-    'https://www.notion.so/f7be487bc3aa4842aaab051497fba7cf#500e914360c046c1b1b68c2b26142f0f',
-  contents: '유소나예여',
+    'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160103_119%2Fyukkie_14518066357879h3ul_JPEG%2FIMG_1752.jpg&type=sc960_832',
+  contents: '괌 여행 가고싶다',
   comment_cnt: 10,
   insert_dt: '2021-12-29 15:00:00',
 };

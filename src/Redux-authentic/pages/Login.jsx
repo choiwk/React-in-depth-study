@@ -12,7 +12,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const loginFunc = () => {
-    console.log(id);
     if (id === '' || password === '') {
       alert('입력 형식이 올바르지 않습니다.');
       return;

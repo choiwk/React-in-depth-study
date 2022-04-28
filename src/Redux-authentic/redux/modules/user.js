@@ -64,7 +64,7 @@ const loginFB = (id, pwd) => {
         history.push('/');
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 };
