@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+
 import { Grid, Text, Input, Button } from '../elements/ImportBridge';
 
 import { useDispatch } from 'react-redux';
@@ -29,7 +29,7 @@ const SignUp = () => {
     dispatch(userActions.signupFB(id, pwd, userName));
   };
   return (
-    <SignUpContainer>
+    <>
       <Grid padding="16px">
         <Text size="32px" bold>
           회원가입
@@ -68,13 +68,8 @@ const SignUp = () => {
           회원가입
         </Button>
       </Grid>
-    </SignUpContainer>
+    </>
   );
 };
-
-const SignUpContainer = styled.div`
-  margin: 30px auto;
-  width: 40%;
-`;
 
 export default SignUp;

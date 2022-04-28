@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { Text, Input, Grid, Button } from '../elements/ImportBridge';
 
@@ -25,44 +24,37 @@ const Login = () => {
   };
 
   return (
-    <LoginContainer>
-      <Grid padding="16px">
-        <Text size={'32px'} bold>
-          로그인
-        </Text>
-        <Grid padding="16px 0px">
-          <Input
-            type="id"
-            label="이메일"
-            placeholder="이메일을 입력해주세요."
-            _onChange={(e) => setId(e.target.value)}
-          ></Input>
-        </Grid>
-        <Grid padding="16px 0px">
-          <Input
-            type="password"
-            label="비밀번호"
-            placeholder="비밀번호를 입력해주세요."
-            _onChange={(e) => setPassword(e.target.value)}
-          ></Input>
-        </Grid>
-        <Button
-          type="button"
-          text="로그인버튼"
-          _onClick={() => {
-            loginFunc();
-          }}
-        >
-          확인
-        </Button>
+    <Grid padding="16px">
+      <Text size={'32px'} bold>
+        로그인
+      </Text>
+      <Grid padding="16px 0px">
+        <Input
+          type="id"
+          label="이메일"
+          placeholder="이메일을 입력해주세요."
+          _onChange={(e) => setId(e.target.value)}
+        ></Input>
       </Grid>
-    </LoginContainer>
+      <Grid padding="16px 0px">
+        <Input
+          type="password"
+          label="비밀번호"
+          placeholder="비밀번호를 입력해주세요."
+          _onChange={(e) => setPassword(e.target.value)}
+        ></Input>
+      </Grid>
+      <Button
+        type="button"
+        text="로그인버튼"
+        _onClick={() => {
+          loginFunc();
+        }}
+      >
+        확인
+      </Button>
+    </Grid>
   );
 };
-
-const LoginContainer = styled.div`
-  margin: 30px auto;
-  width: 40%;
-`;
 
 export default Login;
