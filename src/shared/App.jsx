@@ -36,7 +36,7 @@ function App() {
         </ConnectedRouter>
       </Grid>
       <Permit>
-        <Button text="게시글 작성"></Button>
+        <Button is_float text="+"></Button>
       </Permit>
     </AppContainer>
   );
