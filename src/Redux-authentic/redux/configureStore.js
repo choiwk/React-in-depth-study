@@ -4,12 +4,14 @@ import { createBrowserHistory } from 'history';
 import { connectRouter } from 'connected-react-router';
 
 import User from './modules/user';
+import Post from './modules/post';
 
 export const history = createBrowserHistory(); // 우리의 history 객체 생성함.
 
 const rootReducer = combineReducers({
   // 우리가 user.js에서 만든 reducer을 combineReducers()를 이용해 user에 넣었음.
   user: User,
+  post: Post,
   router: connectRouter(history), // redux에 history를 넣기 : 자신이 만든 history와 router가 연결됨.
   // 즉 자신의 브라우저 history 정보가 store에 저장됨.
 });
