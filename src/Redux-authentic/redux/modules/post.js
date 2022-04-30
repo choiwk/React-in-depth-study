@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
+import { firestore } from '../../../shared/Firebase';
 
 const SET_POST = 'SET_POST';
 const ADD_POST = 'ADD_POST';
@@ -11,23 +12,42 @@ const initialState = {
   list: [],
 };
 
-const initialPost = {
-  id: 0,
-  user_info: {
-    user_name: 'wonkeun',
-    user_profile:
-      'https://www.notion.so/f7be487bc3aa4842aaab051497fba7cf#500e914360c046c1b1b68c2b26142f0f',
-  },
-  image_url:
-    'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160103_119%2Fyukkie_14518066357879h3ul_JPEG%2FIMG_1752.jpg&type=sc960_832',
-  contents: '괌 여행 가고싶다',
-  comment_cnt: 10,
-  insert_dt: '2021-12-29 15:00:00',
+const getPostFB = () => {
+  return function(dispatch, getState, { history }) {
+    const postDB = firestore.collection('post');
+
+    postDB.get().then((docs) => {
+      let post_list = [];
+      docs.forEach((docElements) => {
+        let _post = {
+          id: docElements.id,
+          ...docElements.data(),
+        };
+        let post = {
+          id: _post.id,
+          user_info: {
+            user_name: _post.user_name,
+            user_profile: _post.user_profile,
+            user_id: _post.user_id,
+          },
+          image_url: _post.image_url,
+          contents: _post.contents,
+          comment_cnt: _post.comment_cnt,
+          insert_dt: _post.insert_dt,
+        };
+        post_list.push(post);
+      });
+      dispatch(setPost(post_list));
+    });
+  };
 };
 
 export default handleActions(
   {
-    [SET_POST]: (state, action) => produce(state, (draft) => {}),
+    [SET_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = action.payload.post_list;
+      }),
     [ADD_POST]: (state, action) => produce(state, (draft) => {}),
   },
   initialState
@@ -36,6 +56,7 @@ export default handleActions(
 const actionCreators = {
   setPost,
   addPost,
+  getPostFB,
 };
 
 export { actionCreators };
