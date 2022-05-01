@@ -19,22 +19,35 @@ const getPostFB = () => {
     postDB.get().then((docs) => {
       let post_list = [];
       docs.forEach((docElements) => {
-        let _post = {
-          id: docElements.id,
-          ...docElements.data(),
-        };
-        let post = {
-          id: _post.id,
-          user_info: {
-            user_name: _post.user_name,
-            user_profile: _post.user_profile,
-            user_id: _post.user_id,
+        let _post = docElements.data();
+
+        //? ['user_name', 'user_profile', 'contents','comment_cnt' ... ];
+        let post = Object.keys(_post).reduce(
+          (acc, cur) => {
+            return { ...acc, [cur]: _post[cur] };
           },
-          image_url: _post.image_url,
-          contents: _post.contents,
-          comment_cnt: _post.comment_cnt,
-          insert_dt: _post.insert_dt,
-        };
+          {
+            id: docElements.id,
+            user_infdo: {},
+          }
+        );
+
+        // let _post = {
+        //   id: docElements.id,
+        //   ...docElements.data(),
+        // };
+        // let post = {
+        //   id: _post.id,
+        //   user_info: {
+        //     user_name: _post.user_name,
+        //     user_profile: _post.user_profile,
+        //     user_id: _post.user_id,
+        //   },
+        //   image_url: _post.image_url,
+        //   contents: _post.contents,
+        //   comment_cnt: _post.comment_cnt,
+        //   insert_dt: _post.insert_dt,
+        // };
         post_list.push(post);
       });
       dispatch(setPost(post_list));
