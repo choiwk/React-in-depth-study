@@ -1,24 +1,35 @@
-1. 헤더 만들기
+### Redux 준비하기
 
-2. 로그인/회원가입 페이지 만들기
+- reudx 미들웨어 thunk와 redux-logger 라이브러리를 이용하여 reducer이 실행되기 전과 후를 log로 결과값을 쉽게 보기.
+- redux store에 미들웨어 적용하기 위해 redux 라이브러리 applyMiddleware 함수 이용하기.
+
+### 페이지 UI 구현하기.
+
+1. 메인페이지
+2. 헤더
+3. 로그인/회원가입 페이지 만들기
    - input 최소 단위 컴포넌트를 elements 파일 안에 생성해서 만들어보기.
    - button 태그
 
  <br/>
 
-### 최소단위 elements 파일
+### 최소단위 elements 컴포넌트
 
-- Input.js : 아이디,비밀번호에 대한 label, input안에 들어가는 placeholder 등을 props로 받아서 쓰게 해주기.
-- button.js : onClick() 하면 실행, button 안에 텍스트 등을 props로 받아서 쓰게 해주기.
+- Input : 아이디,비밀번호에 대한 label, input안에 들어가는 placeholder 등을 props로 받아서 쓰게 해주기.
+- Button : onClick() 하면 실행, button 안에 텍스트 등을 props로 받아서 쓰게 해주기.
   - props로 받아서 버튼 넓이가 100% 일지 아닐지에 대해 두가지로 나눠 써주기.
   - 버튼 활성화 : input안에 모든 값과 조건이 true일때 버튼 클릭할 수 있도록.
+- Grid : layout을 일관성 있게 배치 작업해주기.
+- Image : 이미지의 모양, 크기, url 속성 등을 결정하는 컴포넌트.
+- Text : Typography (텍스트 굵기, 색상, 사이즈, 여백 값) props 설정하기.
 
-### 중간단위 pages 파일
+### 중간단위 pages 컴포넌트
 
 - 로그인
 - 회원가입
+- 포스트(게시물 정보)
 
-### 로그인/회원가입 firebase를 이용하여 유저 관리하기.
+### Firebase의 authentication 기능을 사용해 회원가입과 로그인 기능 구현하기.
 
 - 로그인
 
