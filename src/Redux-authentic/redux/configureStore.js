@@ -1,5 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+// redux-thunk는 리덕스에서 비동기 작업을 처리 할 때 가장 많이 사용하는 미들웨어입니다.
+// 이 미들웨어를 사용하면 액션 객체가 아닌 함수를 디스패치 할 수 있습니다.
 import { createBrowserHistory } from 'history';
 import { connectRouter } from 'connected-react-router';
 
