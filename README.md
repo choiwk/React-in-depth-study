@@ -1,9 +1,9 @@
 ### Redux 준비하기
 
 - reudx 미들웨어 thunk와 redux-logger 라이브러리를 이용하여 reducer이 실행되기 전과 후를 log로 결과값을 쉽게 보기.
-<img width="549" alt="스크린샷 2022-05-04 오후 3 59 55" src="https://user-images.githubusercontent.com/77766718/166635680-59b65e7e-e018-419f-b1e2-8fb212c5fcb2.png">
-
+  <img width="549" alt="스크린샷 2022-05-04 오후 3 59 55" src="https://user-images.githubusercontent.com/77766718/166635680-59b65e7e-e018-419f-b1e2-8fb212c5fcb2.png">
 - redux store에 미들웨어 적용하기 위해 redux 라이브러리 applyMiddleware 함수 이용하기.
+- user및 post 모듈 : redux-actions와 immer를 사용해서 action과 action 생성 함수, reducer 만들기.
 
 ### 페이지 UI 구현하기.
 
