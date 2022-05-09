@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 const Grid = (props) => {
-  const { is_flex, width, padding, margin, bg, children } = props;
+  const { is_flex, width, padding, margin, bg, children, center } = props;
 
   const styles = {
     is_flex: is_flex,
@@ -10,6 +10,7 @@ const Grid = (props) => {
     padding: padding,
     margin: margin,
     bg: bg,
+    center: center,
   };
 
   return (
@@ -26,6 +27,7 @@ Grid.defaultProps = {
   padding: false,
   margin: false,
   bg: false,
+  center: false,
 };
 
 const GridBox = styled.div`
@@ -39,6 +41,7 @@ const GridBox = styled.div`
     props.is_flex
       ? `display: flex; align-items: center; justify-content: space-between;`
       : ''}
+      ${(props) => (props.center ? `text-align : center` : '')}
 `;
 
 export default Grid;
