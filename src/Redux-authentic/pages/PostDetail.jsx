@@ -4,7 +4,7 @@ import Post from '../components/Post';
 import CommentWrite from '../components/CommentWrite';
 import CommentList from '../components/CommentList';
 
-const PostDetail = (props) => {
+const PostDetail = () => {
   return (
     <>
       <Post />

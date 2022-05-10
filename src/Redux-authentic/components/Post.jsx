@@ -24,11 +24,6 @@ const Post = (props) => {
           <Text bold>댓글 {props.comment_cnt}</Text>
         </Grid>
       </Grid>
-
-      <div>user profile / user name / insert_dt / is_me (edit btn)</div>
-      <div>contents</div>
-      <div>image</div>
-      <div>comment ctn</div>
     </>
   );
 };
