@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Text, Button, Image, Input } from '../elements/ImportBridge';
 import { useSelector, useDispatch } from 'react-redux';
 import { history } from '../redux/configureStore';
+import Upload from '../../shared/Upload';
 
 const PostWrite = () => {
   console.log(history);
@@ -17,7 +18,7 @@ const PostWrite = () => {
         <Button
           text="로그인 하러가기"
           _onClick={() => {
-            history.replace('/');
+            history.replace('/login');
           }}
         ></Button>
       </Grid>
@@ -25,8 +26,29 @@ const PostWrite = () => {
   }
   return (
     <>
-      <Grid padding="16px">
-        <Text margin="0" size="36px" bold></Text>
+      <Grid padding="16px 0">
+        <Text margin="0px" size="36px" bold>
+          게시글 작성
+        </Text>
+        <Upload />
+      </Grid>
+
+      <Grid>
+        <Grid padding="16px 0">
+          <Text margin="0px" size="24px" bold>
+            미리보기
+          </Text>
+        </Grid>
+
+        <Image shape="rectangle" />
+      </Grid>
+
+      <Grid padding="16px 0">
+        <Input label="게시글 내용" placeholder="게시글 작성" multiLine />
+      </Grid>
+
+      <Grid padding="16px 0">
+        <Button text="게시글 작성"></Button>
       </Grid>
     </>
   );
