@@ -2,14 +2,18 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 const Text = (props) => {
-  const { children, bold, color, size, margin } = props;
+  const { children, bold, color, size, margin, _onClick } = props;
   const styles = {
     bold: bold,
     color: color,
     size: size,
     margin: margin,
   };
-  return <TextContent {...styles}>{children}</TextContent>;
+  return (
+    <TextContent {...styles} onClick={_onClick}>
+      {children}
+    </TextContent>
+  );
 };
 
 Text.defaultProps = {
@@ -18,6 +22,7 @@ Text.defaultProps = {
   color: '#222831',
   size: '14px',
   margin: false,
+  _onClick: () => {},
 };
 
 const TextContent = styled.p`
