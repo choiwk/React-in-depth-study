@@ -1,4 +1,5 @@
-import { Grid, Image, Text } from '../elements';
+import React from 'react';
+import { Grid, Image, Text } from '../elements/ImportBridge';
 
 const CommentList = () => {
   return (

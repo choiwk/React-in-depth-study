@@ -1,4 +1,5 @@
-import { Grid, Input, Text } from '../elements';
+import React from 'react';
+import { Grid, Input, Text } from '../elements/ImportBridge';
 
 const CommentWrite = () => {
   return (
