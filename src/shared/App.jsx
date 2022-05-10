@@ -14,6 +14,8 @@ import { history } from '../Redux-authentic/redux/configureStore';
 import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../Redux-authentic/redux/modules/user';
 import { apiKey } from './Firebase';
+import PostWrite from '../Redux-authentic/pages/PostWrite';
+import PostDetail from '../Redux-authentic/pages/PostDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,10 +35,16 @@ function App() {
           <Route path="/" exact component={PostList} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/login" exact component={Login} />
+          <Route path="/write" exact component={PostWrite} />
+          <Route path="/post/:id" exact component={PostDetail} />
         </ConnectedRouter>
       </Grid>
       <Permit>
-        <Button is_float text="+"></Button>
+        <Button
+          is_float
+          text="+"
+          _onClick={() => history.push('/write')}
+        ></Button>
       </Permit>
     </AppContainer>
   );
