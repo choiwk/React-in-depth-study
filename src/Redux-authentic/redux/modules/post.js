@@ -25,7 +25,6 @@ const addPostFB = (contents = '') => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection('post');
     const _user = getState().user.user;
-    console.log(_user);
 
     const user_info = {
       user_name: _user.userName,
@@ -39,13 +38,15 @@ const addPostFB = (contents = '') => {
       insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
     };
 
-    console.log({ ...user_info, ..._post });
-    return;
     postDB
       .add({ ...user_info, ..._post })
-      .then((doc) => {})
+      .then((doc) => {
+        let post = { user_info, ..._post, id: doc.id };
+        dispatch(addPost(post));
+        history.replace('/');
+      })
       .catch((error) => {
-        console.log('post 게시글 작성을 실패했습니다', error);
+        alert('post 게시글 작성을 실패했습니다', error);
       });
   };
 };
@@ -84,9 +85,11 @@ export default handleActions(
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list = action.payload.post_list;
-        console.log(action);
       }),
-    [ADD_POST]: (state, action) => produce(state, (draft) => {}),
+    [ADD_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list.unshift(action.payload.post);
+      }),
   },
   initialState
 );
