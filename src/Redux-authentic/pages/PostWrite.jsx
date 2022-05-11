@@ -17,6 +17,7 @@ const PostWrite = () => {
 
   const addPost = () => {
     dispatch(postActions.addPostFB(contents));
+    setContents('');
   };
 
   if (!is_login) {
