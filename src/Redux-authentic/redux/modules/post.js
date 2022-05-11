@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import { firestore } from '../../../shared/Firebase';
+import moment from 'moment';
 
 const SET_POST = 'SET_POST';
 const ADD_POST = 'ADD_POST';
@@ -12,8 +13,45 @@ const initialState = {
   list: [],
 };
 
+const initialPost = {
+  image_url:
+    'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160103_119%2Fyukkie_14518066357879h3ul_JPEG%2FIMG_1752.jpg&type=sc960_832',
+  contents: '괌 여행 가고싶다',
+  comment_cnt: 0,
+  insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
+};
+
+const addPostFB = (contents = '') => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection('post');
+    const _user = getState().user.user;
+    console.log(_user);
+
+    const user_info = {
+      user_name: _user.userName,
+      user_id: _user.uid,
+      user_profile: _user.userProfile,
+    };
+
+    const _post = {
+      ...initialPost,
+      contents: contents,
+      insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
+    };
+
+    console.log({ ...user_info, ..._post });
+    return;
+    postDB
+      .add({ ...user_info, ..._post })
+      .then((doc) => {})
+      .catch((error) => {
+        console.log('post 게시글 작성을 실패했습니다', error);
+      });
+  };
+};
+
 const getPostFB = () => {
-  return function(dispatch, getState, { history }) {
+  return function (dispatch, getState, { history }) {
     const postDB = firestore.collection('post');
 
     postDB.get().then((docs) => {
@@ -57,6 +95,7 @@ const actionCreators = {
   setPost,
   addPost,
   getPostFB,
+  addPostFB,
 };
 
 export { actionCreators };

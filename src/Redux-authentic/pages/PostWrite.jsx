@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Text, Button, Image, Input } from '../elements/ImportBridge';
 import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators as postActions } from '../redux/modules/post';
 import { history } from '../redux/configureStore';
 import Upload from '../../shared/Upload';
 
 const PostWrite = () => {
-  console.log(history);
+  const [contents, setContents] = useState('');
+
+  const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
+
+  const changeContents = (e) => {
+    setContents(e.target.value);
+  };
+
+  const addPost = () => {
+    dispatch(postActions.addPostFB(contents));
+  };
 
   if (!is_login) {
     return (
@@ -44,11 +55,16 @@ const PostWrite = () => {
       </Grid>
 
       <Grid padding="16px 0">
-        <Input label="게시글 내용" placeholder="게시글 작성" multiLine />
+        <Input
+          _onChange={changeContents}
+          label="게시글 내용"
+          placeholder="게시글 작성"
+          multiLine
+        />
       </Grid>
 
       <Grid padding="16px 0">
-        <Button text="게시글 작성"></Button>
+        <Button text="게시글 작성" _onClick={addPost}></Button>
       </Grid>
     </>
   );
