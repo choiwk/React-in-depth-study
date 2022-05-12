@@ -9,14 +9,16 @@ const Upload = () => {
     let image = fileInput.current.files[0];
     const _upload = storage.ref(`images/${image.name}`).put(image);
 
-    _upload.then((doc) => {
-      console.log(doc);
+    _upload.then((snapshot) => {
+      snapshot.ref.getDownloadURL().then((url) => {
+        console.log(url);
+      });
     });
   };
 
   const changeFile = (e) => {
-    console.log(e.target.files);
-    console.log(fileInput.current.files[0]);
+    // console.log(e.target.files);
+    // console.log(fileInput.current.files[0]);
   };
   return (
     <>
