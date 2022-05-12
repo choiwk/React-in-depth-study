@@ -66,7 +66,7 @@ const auth = firebase.auth();
 export { auth };
 ```
 
-### 파이어베이스 FireStore 데이터베이스 작성 후 연동하기.
+#### 파이어베이스 FireStore 데이터베이스 작성 후 연동하기.
 
 ```js
 import 'firebase/firestore';
@@ -78,4 +78,19 @@ firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 
 export { auth, apiKey, firestore };
+```
+
+### 게시물 등록 및 삭제 구현.
+
+1. store에 저장된 로그인 여부 값에 따라 로그인 시에만 게시물을 작성할 수 있도록 구현.
+2. 게시글 목록(입력된 값, 사용자 정보)을 나누고 값을 store에 넘겨주기.
+3. 게시글 작성 후 버튼 클릭시 데이터 firestore의 DB에 저장시키기.
+4. Upload.jsx : 게시물에 올릴 이미지 파일 선택하여 firestore DB에 저장시키기.
+
+```js
+// firebase의 store 사용 방법.
+import { storage } from './Firebase';
+
+const storage = firebase.storage();
+export storage;
 ```
