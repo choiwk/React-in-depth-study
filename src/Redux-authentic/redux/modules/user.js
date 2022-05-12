@@ -22,7 +22,7 @@ const initialState = {
 };
 
 const signupFB = (id, pwd, userName) => {
-  return function(dispatch, getState, { history }) {
+  return function (dispatch, getState, { history }) {
     auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
       auth
         .createUserWithEmailAndPassword(id, pwd)
@@ -49,30 +49,38 @@ const signupFB = (id, pwd, userName) => {
 };
 
 const loginFB = (id, pwd) => {
-  return function(dispatch, getState, { history }) {
-    auth
-      .signInWithEmailAndPassword(id, pwd)
-      .then((user) => {
-        dispatch(
-          setUser({
-            userName: user.user.displayName,
-            id: id,
-            userProfile: '',
-            uid: user.user.uid,
-          })
-        );
-        history.push('/');
-      })
-      .catch((error) => {
-        alert(error);
-      });
+  return function (dispatch, getState, { history }) {
+    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+      auth
+        .signInWithEmailAndPassword(id, pwd)
+        .then((user) => {
+          console.log(user);
+
+          dispatch(
+            setUser({
+              user_name: user.user.displayName,
+              id: id,
+              user_profile: '',
+              uid: user.user.uid,
+            })
+          );
+
+          history.push('/');
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+
+          console.log(errorCode, errorMessage);
+        });
+    });
   };
 };
 
 const loginCheckFB = () => {
   // firebase에 로그인이 되어있으니까 firebase의 인증 함수 onAuthStateChanged()를 사용해서
   // user의 값들을 다시 redux에 넣어주는 함수.
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     auth.onAuthStateChanged((user) => {
       //?onAuthStateChanged : 유저가 있는가 없는가 판별 함수.
       if (user) {
@@ -93,7 +101,7 @@ const loginCheckFB = () => {
 };
 
 const logOutFB = () => {
-  return function(dispatch, getState, { history }) {
+  return function (dispatch, getState, { history }) {
     auth.signOut().then(() => {
       dispatch(logOut());
       history.replace('/');
