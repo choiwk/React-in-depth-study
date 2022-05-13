@@ -1,28 +1,22 @@
 import React, { useRef } from 'react';
 import { Button } from '../Redux-authentic/elements/ImportBridge';
 import { storage } from './Firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators as imageActions } from '../Redux-authentic/redux/modules/image';
 
 const Upload = () => {
+  const dispatch = useDispatch();
+
   const fileInput = useRef();
 
   const uploadFB = () => {
     let image = fileInput.current.files[0];
-    const _upload = storage.ref(`images/${image.name}`).put(image);
-
-    _upload.then((snapshot) => {
-      snapshot.ref.getDownloadURL().then((url) => {
-        console.log(url);
-      });
-    });
+    dispatch(imageActions.uploadImageFB(image));
   };
 
-  const changeFile = (e) => {
-    // console.log(e.target.files);
-    // console.log(fileInput.current.files[0]);
-  };
   return (
     <>
-      <input type="file" onChange={changeFile} ref={fileInput} />
+      <input type="file" ref={fileInput} />
       <Button _onClick={uploadFB} text="업로드하기"></Button>
     </>
   );
