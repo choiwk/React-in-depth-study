@@ -6,6 +6,7 @@ import { actionCreators as imageActions } from '../Redux-authentic/redux/modules
 
 const Upload = () => {
   const dispatch = useDispatch();
+  const is_uploading = useSelector((state) => state.image.uploading);
 
   const fileInput = useRef();
 
@@ -16,7 +17,7 @@ const Upload = () => {
 
   return (
     <>
-      <input type="file" ref={fileInput} />
+      <input type="file" ref={fileInput} disabled={is_uploading} />
       <Button _onClick={uploadFB} text="업로드하기"></Button>
     </>
   );
