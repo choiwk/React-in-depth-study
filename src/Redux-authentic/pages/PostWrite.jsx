@@ -10,6 +10,10 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
+  const preview = useSelector((state) => state.image.preview);
+  console.log(preview);
+  const emptyImage =
+    'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
 
   const changeContents = (e) => {
     setContents(e.target.value);
@@ -52,7 +56,7 @@ const PostWrite = () => {
           </Text>
         </Grid>
 
-        <Image shape="rectangle" />
+        <Image shape="rectangle" src={preview ? preview : emptyImage} />
       </Grid>
 
       <Grid padding="16px 0">
