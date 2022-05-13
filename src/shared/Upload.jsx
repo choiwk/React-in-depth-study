@@ -15,9 +15,25 @@ const Upload = () => {
     dispatch(imageActions.uploadImageFB(image));
   };
 
+  const selectFile = (e) => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+    reader.readAsDataURL(file); //? readAsDataURL: base64로 인코딩합니다. 이미지를 다루는데 좋습니다.
+
+    reader.onloadend = () => {
+      console.log(reader);
+      dispatch(imageActions.setPreview(reader.result));
+    };
+  };
+
   return (
     <>
-      <input type="file" ref={fileInput} disabled={is_uploading} />
+      <input
+        type="file"
+        ref={fileInput}
+        disabled={is_uploading}
+        onChange={selectFile}
+      />
       <Button _onClick={uploadFB} text="업로드하기"></Button>
     </>
   );
