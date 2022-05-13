@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+
 import thunk from 'redux-thunk';
 // redux-thunk는 리덕스에서 비동기 작업을 처리 할 때 가장 많이 사용하는 미들웨어입니다.
 // 이 미들웨어를 사용하면 액션 객체가 아닌 함수를 디스패치 할 수 있습니다.
@@ -7,6 +8,7 @@ import { connectRouter } from 'connected-react-router';
 
 import User from './modules/user';
 import Post from './modules/post';
+import Image from './modules/image';
 
 export const history = createBrowserHistory(); // 우리의 history 객체 생성함.
 
@@ -14,6 +16,7 @@ const rootReducer = combineReducers({
   // 우리가 user.js에서 만든 reducer을 combineReducers()를 이용해 user에 넣었음.
   user: User,
   post: Post,
+  image: Image,
   router: connectRouter(history), // redux에 history를 넣기 : 자신이 만든 history와 router가 연결됨.
   // 즉 자신의 브라우저 history 정보가 store에 저장됨.
 });
