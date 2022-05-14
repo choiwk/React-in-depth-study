@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import { firestore } from '../../../shared/Firebase';
+import { firestore, storage } from '../../../shared/Firebase';
 import moment from 'moment';
 
 const SET_POST = 'SET_POST';
@@ -15,7 +15,7 @@ const initialState = {
 
 const initialPost = {
   image_url:
-    'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160103_119%2Fyukkie_14518066357879h3ul_JPEG%2FIMG_1752.jpg&type=sc960_832',
+    'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg',
   contents: '괌 여행 가고싶다',
   comment_cnt: 0,
   insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
@@ -38,16 +38,35 @@ const addPostFB = (contents = '') => {
       insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
     };
 
-    postDB
-      .add({ ...user_info, ..._post })
-      .then((doc) => {
-        let post = { user_info, ..._post, id: doc.id };
-        dispatch(addPost(post));
-        history.replace('/');
-      })
-      .catch((error) => {
-        alert('post 게시글 작성을 실패했습니다', error);
-      });
+    const _image = getState().image.preview;
+    const _upload = storage
+      .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+      .putString(_image, 'data_url');
+
+    _upload.then((snapshot) => {
+      snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          return url;
+        })
+        .then((url) => {
+          postDB
+            .add({ ...user_info, ..._post, image_url: url })
+            .then((doc) => {
+              let post = {
+                user_info,
+                ..._post,
+                id: doc.id,
+                image_url: url,
+              };
+              dispatch(addPost(post));
+              history.replace('/');
+            })
+            .catch((error) => {
+              alert('post 게시글 작성을 실패했습니다', error);
+            });
+        });
+    });
   };
 };
 
