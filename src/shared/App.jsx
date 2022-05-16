@@ -16,6 +16,7 @@ import { actionCreators as userActions } from '../Redux-authentic/redux/modules/
 import { apiKey } from './Firebase';
 import PostWrite from '../Redux-authentic/pages/PostWrite';
 import PostDetail from '../Redux-authentic/pages/PostDetail';
+import Search from '../shared/Search';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
           <Route path="/login" exact component={Login} />
           <Route path="/write" exact component={PostWrite} />
           <Route path="/post/:id" exact component={PostDetail} />
+          <Route path="/search" exact component={Search} />
         </ConnectedRouter>
       </Grid>
       <Permit>
