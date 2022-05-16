@@ -33,8 +33,7 @@ const Post = (props) => {
 Post.defaultProps = {
   user_info: {
     user_name: 'wonkeun',
-    user_profile:
-      'https://www.notion.so/f7be487bc3aa4842aaab051497fba7cf#500e914360c046c1b1b68c2b26142f0f',
+    user_profile: '',
   },
   image_url:
     'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160103_119%2Fyukkie_14518066357879h3ul_JPEG%2FIMG_1752.jpg&type=sc960_832',

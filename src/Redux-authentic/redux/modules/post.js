@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import { firestore, storage } from '../../../shared/Firebase';
+import { actionCreators as imageActions } from './image';
 import moment from 'moment';
 
 const SET_POST = 'SET_POST';
@@ -39,7 +40,7 @@ const addPostFB = (contents = '') => {
     };
 
     const _image = getState().image.preview;
-    const _upload = storage
+    const _upload = storage // 파이어베이스 파일 저장소에 전송하는 파일 네이밍 설정하기.
       .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
       .putString(_image, 'data_url');
 
@@ -61,10 +62,15 @@ const addPostFB = (contents = '') => {
               };
               dispatch(addPost(post));
               history.replace('/');
+              dispatch(imageActions.setPreview(null));
+              // 이미지를 선택할때 마다 preview에 파일 값이 들어가는데 최종적으로 null로 지워줌.
             })
             .catch((error) => {
               alert('post 게시글 작성을 실패했습니다', error);
             });
+        })
+        .catch((error) => {
+          alert('이미지를 업로드 하는데 문제가 있습니다.', error);
         });
     });
   };

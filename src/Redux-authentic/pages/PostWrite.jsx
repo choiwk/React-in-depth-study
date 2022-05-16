@@ -11,7 +11,7 @@ const PostWrite = () => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-  console.log(preview);
+
   const emptyImage =
     'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
 
