@@ -17,7 +17,7 @@ const Post = (props) => {
         </Grid>
 
         <Grid>
-          <Image shape="rectangle" />
+          <Image shape="rectangle" src={props.image_url} />
         </Grid>
 
         <Grid padding="16px">
