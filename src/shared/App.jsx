@@ -17,6 +17,7 @@ import { apiKey } from './Firebase';
 import PostWrite from '../Redux-authentic/pages/PostWrite';
 import PostDetail from '../Redux-authentic/pages/PostDetail';
 import Search from '../shared/Search';
+import Notification from '../Redux-authentic/pages/Notification';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
           <Route path="/write" exact component={PostWrite} />
           <Route path="/post/:id" exact component={PostDetail} />
           <Route path="/search" exact component={Search} />
+          <Route path="/noti" exact component={Notification} />
         </ConnectedRouter>
       </Grid>
       <Permit>
