@@ -6,9 +6,14 @@ import moment from 'moment';
 
 const SET_POST = 'SET_POST';
 const ADD_POST = 'ADD_POST';
+const EDIT_POST = 'EDIT_POST';
 
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+  post_id,
+  post,
+}));
 
 const initialState = {
   list: [],
@@ -39,40 +44,69 @@ const addPostFB = (contents = '') => {
       insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
     };
 
-    const _image = getState().image.preview;
-    const _upload = storage // 파이어베이스 파일 저장소에 전송하는 파일 네이밍 설정하기.
-      .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
-      .putString(_image, 'data_url');
+    const editPostFB = (post_id = null, post = {}) => {
+      return function (dispatch, getState, { history }) {
+        if (!post_id) {
+          alert('게시물 정보가 없습니다');
+          return;
+        }
+        const _image = getState().image.preview;
 
-    _upload.then((snapshot) => {
-      snapshot.ref
-        .getDownloadURL()
-        .then((url) => {
-          return url;
-        })
-        .then((url) => {
+        const _post_idx = getState().post.list.findIndex(
+          (el) => el.id === post_id
+        );
+        const _post = getState().post.list[_post_idx];
+
+        console.log(_post);
+
+        const postDB = firestore.collection('post');
+
+        if (_image === _post.image_url) {
           postDB
-            .add({ ...user_info, ..._post, image_url: url })
+            .doc(post_id)
+            .update(post)
             .then((doc) => {
-              let post = {
-                user_info,
-                ..._post,
-                id: doc.id,
-                image_url: url,
-              };
-              dispatch(addPost(post));
+              dispatch(editPost(post_id, { ...post }));
               history.replace('/');
-              dispatch(imageActions.setPreview(null));
-              // 이미지를 선택할때 마다 preview에 파일 값이 들어가는데 최종적으로 null로 지워줌.
+            });
+          return;
+        }
+
+        const _upload = storage // 파이어베이스 파일 저장소에 전송하는 파일 네이밍 설정하기.
+          .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+          .putString(_image, 'data_url');
+
+        _upload.then((snapshot) => {
+          snapshot.ref
+            .getDownloadURL()
+            .then((url) => {
+              return url;
+            })
+            .then((url) => {
+              postDB
+                .add({ ...user_info, ..._post, image_url: url })
+                .then((doc) => {
+                  let post = {
+                    user_info,
+                    ..._post,
+                    id: doc.id,
+                    image_url: url,
+                  };
+                  dispatch(addPost(post));
+                  history.replace('/');
+                  dispatch(imageActions.setPreview(null));
+                  // 이미지를 선택할때 마다 preview에 파일 값이 들어가는데 최종적으로 null로 지워줌.
+                })
+                .catch((error) => {
+                  alert('post 게시글 작성을 실패했습니다', error);
+                });
             })
             .catch((error) => {
-              alert('post 게시글 작성을 실패했습니다', error);
+              alert('이미지를 업로드 하는데 문제가 있습니다.', error);
             });
-        })
-        .catch((error) => {
-          alert('이미지를 업로드 하는데 문제가 있습니다.', error);
         });
-    });
+      };
+    };
   };
 };
 
