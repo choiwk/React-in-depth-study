@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Button } from '../Redux-authentic/elements/ImportBridge';
-import { storage } from './Firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as imageActions } from '../Redux-authentic/redux/modules/image';
 

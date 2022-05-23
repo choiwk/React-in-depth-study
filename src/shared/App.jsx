@@ -47,8 +47,10 @@ function App() {
         <Button
           is_float
           text="+"
-          _onClick={() => history.push('/write')}
-        ></Button>
+          _onClick={() => {
+            history.push('/write');
+          }}
+        />
       </Permit>
     </AppContainer>
   );
