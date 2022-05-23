@@ -27,6 +27,63 @@ const initialPost = {
   insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
 };
 
+const editPostFB = (post_id = null, post = {}) => {
+  return function (dispatch, getState, { history }) {
+    if (!post_id) {
+      console.log('게시물 정보가 없어요!');
+      return;
+    }
+
+    const _image = getState().image.preview;
+
+    const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
+    const _post = getState().post.list[_post_idx];
+
+    console.log(_post);
+
+    const postDB = firestore.collection('post');
+
+    if (_image === _post.image_url) {
+      postDB
+        .doc(post_id)
+        .update(post)
+        .then((doc) => {
+          dispatch(editPost(post_id, { ...post }));
+          history.replace('/');
+        });
+
+      return;
+    } else {
+      const user_id = getState().user.user.uid;
+      const _upload = storage
+        .ref(`images/${user_id}_${new Date().getTime()}`)
+        .putString(_image, 'data_url');
+
+      _upload.then((snapshot) => {
+        snapshot.ref
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+
+            return url;
+          })
+          .then((url) => {
+            postDB
+              .doc(post_id)
+              .update({ ...post, image_url: url })
+              .then((doc) => {
+                dispatch(editPost(post_id, { ...post, image_url: url }));
+                history.replace('/');
+              });
+          })
+          .catch((err) => {
+            window.alert('앗! 이미지 업로드에 문제가 있어요!');
+            console.log('앗! 이미지 업로드에 문제가 있어요!', err);
+          });
+      });
+    }
+  };
+};
 const addPostFB = (contents = '') => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection('post');
@@ -44,69 +101,41 @@ const addPostFB = (contents = '') => {
       insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
     };
 
-    const editPostFB = (post_id = null, post = {}) => {
-      return function (dispatch, getState, { history }) {
-        if (!post_id) {
-          alert('게시물 정보가 없습니다');
-          return;
-        }
-        const _image = getState().image.preview;
+    const _image = getState().image.preview;
 
-        const _post_idx = getState().post.list.findIndex(
-          (el) => el.id === post_id
-        );
-        const _post = getState().post.list[_post_idx];
+    const _upload = storage // 파이어베이스 파일 저장소에 전송하는 파일 네이밍 설정하기.
+      .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+      .putString(_image, 'data_url');
 
-        console.log(_post);
-
-        const postDB = firestore.collection('post');
-
-        if (_image === _post.image_url) {
+    _upload.then((snapshot) => {
+      snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          return url;
+        })
+        .then((url) => {
           postDB
-            .doc(post_id)
-            .update(post)
+            .add({ ...user_info, ..._post, image_url: url })
             .then((doc) => {
-              dispatch(editPost(post_id, { ...post }));
+              let post = {
+                user_info,
+                ..._post,
+                id: doc.id,
+                image_url: url,
+              };
+              dispatch(addPost(post));
               history.replace('/');
-            });
-          return;
-        }
-
-        const _upload = storage // 파이어베이스 파일 저장소에 전송하는 파일 네이밍 설정하기.
-          .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
-          .putString(_image, 'data_url');
-
-        _upload.then((snapshot) => {
-          snapshot.ref
-            .getDownloadURL()
-            .then((url) => {
-              return url;
-            })
-            .then((url) => {
-              postDB
-                .add({ ...user_info, ..._post, image_url: url })
-                .then((doc) => {
-                  let post = {
-                    user_info,
-                    ..._post,
-                    id: doc.id,
-                    image_url: url,
-                  };
-                  dispatch(addPost(post));
-                  history.replace('/');
-                  dispatch(imageActions.setPreview(null));
-                  // 이미지를 선택할때 마다 preview에 파일 값이 들어가는데 최종적으로 null로 지워줌.
-                })
-                .catch((error) => {
-                  alert('post 게시글 작성을 실패했습니다', error);
-                });
+              dispatch(imageActions.setPreview(null));
+              // 이미지를 선택할때 마다 preview에 파일 값이 들어가는데 최종적으로 null로 지워줌.
             })
             .catch((error) => {
-              alert('이미지를 업로드 하는데 문제가 있습니다.', error);
+              alert('post 게시글 작성을 실패했습니다', error);
             });
+        })
+        .catch((error) => {
+          alert('이미지를 업로드 하는데 문제가 있습니다.', error);
         });
-      };
-    };
+    });
   };
 };
 
@@ -114,7 +143,8 @@ const getPostFB = () => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection('post');
 
-    postDB.get().then((docs) => {
+    let query = postDB.orderBy('insert_dt', 'desc').limit(3);
+    query.get().then((docs) => {
       let post_list = [];
       docs.forEach((docElements) => {
         let _post = docElements.data();
@@ -149,6 +179,16 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post);
       }),
+    [EDIT_POST]: (state, action) =>
+      produce(state, (draft) => {
+        let idx = draft.list.findIndex(
+          (el) => el.id === action.payload.post_id
+        );
+        draft.list[idx] = {
+          ...draft.list[idx],
+          ...action.payload.post,
+        };
+      }),
   },
   initialState
 );
@@ -158,6 +198,7 @@ const actionCreators = {
   addPost,
   getPostFB,
   addPostFB,
+  editPostFB,
 };
 
 export { actionCreators };
