@@ -2,15 +2,36 @@ import React, { useState } from 'react';
 import { Grid, Text, Button, Image, Input } from '../elements/ImportBridge';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as postActions } from '../redux/modules/post';
+import { actionCreators as imageActions } from '../redux/modules/image';
 import { history } from '../redux/configureStore';
 import Upload from '../../shared/Upload';
+import { useEffect } from 'react';
 
-const PostWrite = () => {
-  const [contents, setContents] = useState('');
-
+const PostWrite = (props) => {
+  console.log('props ::: ', props);
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
+  const post_list = useSelector((state) => state.post.list);
+
+  const post_id = props.match.params.id;
+  const is_edit = post_id ? true : false;
+
+  let _post = is_edit ? post_list.find((el) => el.id === post_id) : null;
+
+  const [contents, setContents] = useState(_post ? _post.contents : '');
+
+  useEffect(() => {
+    if (is_edit && !_post) {
+      console.log('포스트 정보가 없습니다.');
+      history.goBack();
+
+      return;
+    }
+    if (is_edit) {
+      dispatch(imageActions.setPreview(_post.image_url));
+    }
+  }, []);
 
   const emptyImage =
     'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
@@ -21,7 +42,10 @@ const PostWrite = () => {
 
   const addPost = () => {
     dispatch(postActions.addPostFB(contents));
-    setContents('');
+  };
+
+  const editPost = () => {
+    dispatch(postActions.editPostFB(post_id, { contents: contents }));
   };
 
   if (!is_login) {
@@ -44,7 +68,7 @@ const PostWrite = () => {
     <>
       <Grid padding="16px 0">
         <Text margin="0px" size="36px" bold>
-          게시글 작성
+          {is_edit ? '게시글 수정' : '게시글 작성'}
         </Text>
         <Upload />
       </Grid>
@@ -61,6 +85,7 @@ const PostWrite = () => {
 
       <Grid padding="16px 0">
         <Input
+          value={contents}
           _onChange={changeContents}
           label="게시글 내용"
           placeholder="게시글 작성"
@@ -69,7 +94,11 @@ const PostWrite = () => {
       </Grid>
 
       <Grid padding="16px 0">
-        <Button text="게시글 작성" _onClick={addPost}></Button>
+        {is_edit ? (
+          <Button text="게시글 수정" _onClick={editPost}></Button>
+        ) : (
+          <Button text="게시글 작성" _onClick={addPost}></Button>
+        )}
       </Grid>
     </>
   );
