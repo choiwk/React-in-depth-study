@@ -1,15 +1,30 @@
 import React from 'react';
 
-import { Grid, Image, Text } from '../elements/ImportBridge';
+import { Grid, Image, Text, Button } from '../elements/ImportBridge';
+import { history } from '../redux/configureStore';
 
 const Post = (props) => {
+  console.log(props.is_me);
   return (
     <>
       <Grid>
         <Grid is_flex>
           <Image shape="circle" src={props.src} />
           <Text bold>{props.user_info.user_name}</Text>
-          <Text>{props.insert_dt}</Text>
+          <Grid is_flex width="auto">
+            {props.is_me && (
+              <Button
+                text="수정"
+                width="auto"
+                padding="4px"
+                margin="4px"
+                _onClick={() => {
+                  history.push(`/write/${props.id}`);
+                }}
+              ></Button>
+            )}
+            <Text>{props.insert_dt}</Text>
+          </Grid>
         </Grid>
 
         <Grid padding="16px 0">
