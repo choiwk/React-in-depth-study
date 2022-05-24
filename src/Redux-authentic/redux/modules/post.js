@@ -9,7 +9,10 @@ const ADD_POST = 'ADD_POST';
 const EDIT_POST = 'EDIT_POST';
 const LOADING = 'LOADING';
 
-const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
+const setPost = createAction(SET_POST, (post_list, paging) => ({
+  post_list,
+  paging,
+}));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
@@ -199,6 +202,8 @@ export default handleActions(
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list = action.payload.post_list;
+        draft.paging = action.payload.paging;
+        draft.is_loading = false;
       }),
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
