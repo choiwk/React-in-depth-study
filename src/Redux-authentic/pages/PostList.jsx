@@ -7,6 +7,8 @@ const PostList = () => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user.user); //로그인한 상태인지.
+  const is_loading = useSelector((state) => state.post.is_loading);
+  const paging = useSelector((state) => state.post.paging);
 
   useEffect(() => {
     if (post_list.length === 0) {
@@ -21,6 +23,13 @@ const PostList = () => {
         }
         return <Post key={el.id} {...el} />;
       })}
+      <button
+        onClick={() => {
+          dispatch(postActions.getPostFB(paging.next));
+        }}
+      >
+        추가 로드하기
+      </button>
     </>
   );
 };
