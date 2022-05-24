@@ -7,8 +7,6 @@ const Search = () => {
     //? debounce :
     //? 입력한 글자마다 바로 이벤트가 호출되는 것이 아닌 설정한 시간 안에 글을 입력하면 호출을 멈추고,
     //? 설정한 시간보다 늦게 글을 입력하면 지금까지 입력했던 글을 호출시킨다.
-
-    console.log(`debounce ::: ${e.target.value}`);
   }, 1000);
   const keyPress = useCallback(debounce, []);
 

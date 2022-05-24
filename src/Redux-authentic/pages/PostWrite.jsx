@@ -8,7 +8,6 @@ import Upload from '../../shared/Upload';
 import { useEffect } from 'react';
 
 const PostWrite = (props) => {
-  console.log('props ::: ', props);
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
