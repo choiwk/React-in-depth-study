@@ -61,7 +61,7 @@ const AspectInner = styled.div`
 
 Image.defaultProps = {
   shape: 'circle',
-  src: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAyMDNfMTcw%2FMDAxNjEyMjk3OTAzMTI4.9rgytDH7vuuNmokdK0Q2VcH8JXYQ_fHOttj6Ww8xFAUg.KyPdaVCXYXVo6ePo917Bv5opXEazZsX_MWJ9ZHUDHfcg.JPEG.tjfgkr777%2FKakaoTalk_20210203_050643755_10.jpg&type=sc960_832',
+  src: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTA3MjlfMjU1%2FMDAxNTY0MzUwOTY0MzEz.iyUJxblUjigTP_6nCdo_gsNis6Jm0p7QdledUrDbMwIg.AZjXhnmSzg3If8q0i7K9YOh7dK4xrZKbCq63z0bQNoMg.JPEG.pajm96%2FKakaoTalk_20190728_144656277_03.jpg&type=sc960_832',
   size: 46,
 };
 
