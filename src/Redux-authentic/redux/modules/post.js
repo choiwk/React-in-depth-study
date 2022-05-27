@@ -150,10 +150,19 @@ const getPostFB = (start = null, size = 3) => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection('post');
 
+    let _paging = getState().post.paging;
+    console.log('페이징', _paging);
+    if (_paging.start && !_paging.next) {
+      alert('게시글의 정보가 없습니다.');
+      return;
+    }
+
     dispatch(loading(true));
     let query = postDB.orderBy('insert_dt', 'desc');
+
     if (start) {
       query = query.startAt(start);
+      console.log('쿼리 ::: ', query);
     }
     query
       .limit(size + 1)
@@ -169,10 +178,11 @@ const getPostFB = (start = null, size = 3) => {
               : null,
           size: size,
         };
+        console.log(paging);
 
         docs.forEach((docElements) => {
-          console.log(docElements);
           let _post = docElements.data();
+          console.log('docs ::: ', _post);
           let post = Object.keys(_post).reduce(
             (acc, cur) => {
               if (cur.indexOf('user_') !== -1) {
@@ -189,9 +199,10 @@ const getPostFB = (start = null, size = 3) => {
             }
           );
           post_list.push(post);
+          console.log('post_list ::: ', post_list);
         });
-        post_list.pop();
-        console.log(post_list);
+
+        console.log('post_list.pop()', post_list.pop());
         dispatch(setPost(post_list, paging));
       });
   };
@@ -201,7 +212,8 @@ export default handleActions(
   {
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = action.payload.post_list;
+        draft.list.push(...action.payload.post_list);
+        console.log('store에 담긴 post_list ::: ', action.payload.post_list);
         draft.paging = action.payload.paging;
         draft.is_loading = false;
       }),
