@@ -18,7 +18,11 @@ const PostList = () => {
   }, []);
   return (
     <>
-      <InfinityScroll>
+      <InfinityScroll
+        callNext={() => console.log('next!!♻️')}
+        is_next={paging.next ? true : false}
+        is_loading={is_loading}
+      >
         {post_list.map((el, idx) => {
           if (user_info && el.user_info.user_id === user_info.uid) {
             return <Post key={el.id} {...el} is_me />;
