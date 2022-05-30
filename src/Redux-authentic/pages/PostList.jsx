@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Post from '../components/Post';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as postActions } from '../redux/modules/post';
+import InfinityScroll from '../../shared/InfinityScroll';
 
 const PostList = () => {
   const dispatch = useDispatch();
@@ -17,12 +18,14 @@ const PostList = () => {
   }, []);
   return (
     <>
-      {post_list.map((el, idx) => {
-        if (user_info && el.user_info.user_id === user_info.uid) {
-          return <Post key={el.id} {...el} is_me />;
-        }
-        return <Post key={el.id} {...el} />;
-      })}
+      <InfinityScroll>
+        {post_list.map((el, idx) => {
+          if (user_info && el.user_info.user_id === user_info.uid) {
+            return <Post key={el.id} {...el} is_me />;
+          }
+          return <Post key={el.id} {...el} />;
+        })}
+      </InfinityScroll>
       <button
         onClick={() => {
           dispatch(postActions.getPostFB(paging.next));
