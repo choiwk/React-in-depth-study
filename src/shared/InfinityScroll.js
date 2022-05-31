@@ -8,7 +8,16 @@ const InfinityScroll = (props) => {
     if (is_loading) {
       return;
     }
-    callNext();
+    const { scrollHeight } = document.body;
+    const { innerHeight } = window;
+    const { scrollTop } = document.documentElement || document.body.scrollTop;
+    console.log(
+      `innerHeight : ${innerHeight}, scrollHeight : ${scrollHeight}, scrollTop : ${scrollTop}`
+    );
+    console.log(scrollHeight - innerHeight - scrollTop);
+    if (scrollHeight - innerHeight - scrollTop < 200) {
+      callNext();
+    }
   }, 300);
 
   const handleScroll = useCallback(_handleScroll, [is_loading]);

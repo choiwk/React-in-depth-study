@@ -159,10 +159,10 @@ const getPostFB = (start = null, size = 3) => {
 
     dispatch(loading(true));
     let query = postDB.orderBy('insert_dt', 'desc');
-
+    console.log('일반', query);
     if (start) {
       query = query.startAt(start);
-      console.log('쿼리 ::: ', query);
+      console.log('start: ', query);
     }
     query
       .limit(size + 1)
@@ -178,11 +178,12 @@ const getPostFB = (start = null, size = 3) => {
               : null,
           size: size,
         };
-        console.log(paging);
+        console.log('페이징 ::: ', paging.next);
 
         docs.forEach((docElements) => {
           let _post = docElements.data();
-          console.log('docs ::: ', _post);
+          console.log('악', _post);
+
           let post = Object.keys(_post).reduce(
             (acc, cur) => {
               if (cur.indexOf('user_') !== -1) {
@@ -199,11 +200,11 @@ const getPostFB = (start = null, size = 3) => {
             }
           );
           post_list.push(post);
-          console.log('post_list ::: ', post_list);
         });
 
         console.log('post_list.pop()', post_list.pop());
         dispatch(setPost(post_list, paging));
+        console.log(post_list);
       });
   };
 };
