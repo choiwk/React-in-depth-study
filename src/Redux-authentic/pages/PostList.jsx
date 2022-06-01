@@ -3,6 +3,8 @@ import Post from '../components/Post';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as postActions } from '../redux/modules/post';
 import InfinityScroll from '../../shared/InfinityScroll';
+import { Grid } from '../elements/ImportBridge';
+import { history } from '../redux/configureStore';
 
 const PostList = () => {
   const dispatch = useDispatch();
@@ -18,18 +20,40 @@ const PostList = () => {
   }, []);
   return (
     <>
-      <InfinityScroll
-        callNext={() => dispatch(postActions.getPostFB(paging.next))}
-        is_next={paging.next ? true : false}
-        is_loading={is_loading}
-      >
-        {post_list.map((el, idx) => {
-          if (user_info && el.user_info.user_id === user_info.uid) {
-            return <Post key={el.id} {...el} is_me />;
-          }
-          return <Post key={el.id} {...el} />;
-        })}
-      </InfinityScroll>
+      <Grid bg={'#EFF6FF'} padding="5px 0">
+        <InfinityScroll
+          callNext={() => dispatch(postActions.getPostFB(paging.next))}
+          is_next={paging.next ? true : false}
+          is_loading={is_loading}
+        >
+          {post_list.map((el, idx) => {
+            if (user_info && el.user_info.user_id === user_info.uid) {
+              return (
+                <Grid
+                  key={el.id}
+                  _onClick={() => {
+                    history.push(`/post/${el.id}`);
+                  }}
+                >
+                  <Post {...el} is_me />
+                </Grid>
+              );
+            }
+            return (
+              <Grid
+                margin="30px 0"
+                bg="#ffffff"
+                key={el.id}
+                _onClick={() => {
+                  history.push(`/post/${el.id}`);
+                }}
+              >
+                <Post {...el} />
+              </Grid>
+            );
+          })}
+        </InfinityScroll>
+      </Grid>
     </>
   );
 };
