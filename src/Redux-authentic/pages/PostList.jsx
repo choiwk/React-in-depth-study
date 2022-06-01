@@ -19,7 +19,7 @@ const PostList = () => {
   return (
     <>
       <InfinityScroll
-        callNext={() => console.log('next!!♻️')}
+        callNext={() => dispatch(postActions.getPostFB(paging.next))}
         is_next={paging.next ? true : false}
         is_loading={is_loading}
       >
@@ -30,13 +30,6 @@ const PostList = () => {
           return <Post key={el.id} {...el} />;
         })}
       </InfinityScroll>
-      <button
-        onClick={() => {
-          dispatch(postActions.getPostFB(paging.next));
-        }}
-      >
-        추가 로드하기
-      </button>
     </>
   );
 };

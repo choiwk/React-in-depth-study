@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import _ from 'lodash';
+import Spinner from '../Redux-authentic/elements/Spinner';
 
 const InfinityScroll = (props) => {
   const { children, callNext, is_next, is_loading } = props;
@@ -38,7 +39,12 @@ const InfinityScroll = (props) => {
     //? 언마운트와 비슷하게 동작하게 된다.
   }, [is_next, is_loading]);
 
-  return <>{props.children}</>;
+  return (
+    <>
+      {props.children}
+      {is_next && <Spinner />}
+    </>
+  );
 };
 
 InfinityScroll.defaultProps = {
