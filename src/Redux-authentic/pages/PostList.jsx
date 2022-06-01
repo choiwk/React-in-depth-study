@@ -30,6 +30,8 @@ const PostList = () => {
             if (user_info && el.user_info.user_id === user_info.uid) {
               return (
                 <Grid
+                  margin="30px 0"
+                  bg="#ffffff"
                   key={el.id}
                   _onClick={() => {
                     history.push(`/post/${el.id}`);

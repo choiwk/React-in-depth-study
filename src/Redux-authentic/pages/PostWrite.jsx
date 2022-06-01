@@ -14,6 +14,7 @@ const PostWrite = (props) => {
   const post_list = useSelector((state) => state.post.list);
 
   const post_id = props.match.params.id;
+
   const is_edit = post_id ? true : false;
 
   let _post = is_edit ? post_list.find((el) => el.id === post_id) : null;

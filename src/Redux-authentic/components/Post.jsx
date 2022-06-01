@@ -4,7 +4,6 @@ import { Grid, Image, Text, Button } from '../elements/ImportBridge';
 import { history } from '../redux/configureStore';
 
 const Post = (props) => {
-  console.log(props.is_me);
   return (
     <>
       <Grid>

@@ -45,9 +45,6 @@ const editPostFB = (post_id = null, post = {}) => {
 
     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
     const _post = getState().post.list[_post_idx];
-
-    console.log(_post);
-
     const postDB = firestore.collection('post');
 
     if (_image === _post.image_url) {
@@ -70,8 +67,6 @@ const editPostFB = (post_id = null, post = {}) => {
         snapshot.ref
           .getDownloadURL()
           .then((url) => {
-            console.log(url);
-
             return url;
           })
           .then((url) => {
@@ -151,7 +146,7 @@ const getPostFB = (start = null, size = 3) => {
     const postDB = firestore.collection('post');
 
     let _paging = getState().post.paging;
-    console.log('페이징', _paging);
+
     if (_paging.start && !_paging.next) {
       alert('게시글의 정보가 없습니다.');
       return;
@@ -182,7 +177,6 @@ const getPostFB = (start = null, size = 3) => {
 
         docs.forEach((docElements) => {
           let _post = docElements.data();
-          console.log('악', _post);
 
           let post = Object.keys(_post).reduce(
             (acc, cur) => {

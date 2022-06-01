@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Grid, Text, Button } from '../elements/ImportBridge';
-import { getCookie, deleteCookie } from '../../shared/Cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 import { history } from '../redux/configureStore';
@@ -39,15 +38,7 @@ const Header = () => {
   return (
     <Grid is_flex padding="0 0 30px 0 ">
       <Grid>
-        <Text
-          _onClick={() => {
-            history.push('/');
-          }}
-          margin="0px"
-          size="24px"
-          bold
-          cursor
-        >
+        <Text margin="0px" size="24px" bold cursor>
           WonStargram
         </Text>
       </Grid>
