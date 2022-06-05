@@ -57,6 +57,12 @@ const AspectInner = styled.div`
   overflow: hidden; //? 사진의 크기는 재각각이기 때문에 너무 큰 사진이 영역밖으로 넘어갈 경우 넘어간 영역은 숨겨버리기.
   background-image: url('${(props) => props.src}');
   background-size: cover;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.5s ease-out;
+    filter: brightness(70%);
+  }
 `;
 
 Image.defaultProps = {
