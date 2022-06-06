@@ -4,32 +4,31 @@ import CommentWrite from '../components/CommentWrite';
 import CommentList from '../components/CommentList';
 import { useSelector } from 'react-redux';
 import { firestore } from '../../shared/Firebase';
+import { history } from '../redux/configureStore';
 
 const PostDetail = (props) => {
   const id = props.match.params.id;
 
+  const login = useSelector((state) => state.user.is_login);
   const user_info = useSelector((state) => state.user.user);
-
   const post_list = useSelector((store) => store.post.list);
 
   const post_idx = post_list.findIndex((p) => p.id === id);
   const post_data = post_list[post_idx];
 
-  const [post, setPost] = React.useState(post_data ? post_data : null);
+  const [post, setPost] = useState(post_data ? post_data : null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (post) {
       return;
     }
 
     const postDB = firestore.collection('post');
+
     postDB
       .doc(id)
       .get()
       .then((doc) => {
-        console.log(doc);
-        console.log(doc.data());
-
         let _post = doc.data();
         let post = Object.keys(_post).reduce(
           (acc, cur) => {
@@ -51,7 +50,14 @@ const PostDetail = (props) => {
   return (
     <React.Fragment>
       {post && (
-        <Post {...post} is_me={post.user_info.user_id === user_info.uid} />
+        <Post
+          {...post}
+          is_me={
+            login === false
+              ? history.push('/login')
+              : post.user_info.user_id === user_info.uid
+          }
+        />
       )}
       <CommentWrite />
       <CommentList />

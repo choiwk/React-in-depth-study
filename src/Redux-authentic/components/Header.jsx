@@ -38,7 +38,7 @@ const Header = () => {
   return (
     <Grid is_flex padding="0 0 30px 0 ">
       <Grid>
-        <Text margin="0px" size="24px" bold cursor>
+        <Text margin="0px" size="24px" bold>
           WonStargram
         </Text>
       </Grid>
