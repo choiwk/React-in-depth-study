@@ -203,11 +203,48 @@ const getPostFB = (start = null, size = 3) => {
   };
 };
 
+const getOnePostFB = (id) => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection('post');
+
+    postDB
+      .doc(id)
+      .get()
+      .then((doc) => {
+        let _post = doc.data();
+        let post = Object.keys(_post).reduce(
+          (acc, cur) => {
+            if (cur.indexOf('user_') !== -1) {
+              return {
+                ...acc,
+                user_info: { ...acc.user_info, [cur]: _post[cur] },
+              };
+            }
+            return { ...acc, [cur]: _post[cur] };
+          },
+          { id: doc.id, user_info: {} }
+        );
+
+        dispatch(setPost([post], { start: null, next: null, size: 3 }));
+      });
+  };
+};
+
 export default handleActions(
   {
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
+
+        draft.list = draft.list.reduce((acc, cur) => {
+          if (acc.findIndex(((el) => el.id === cur.id) === -1)) {
+            return [...acc, cur];
+          } else {
+            acc[acc.findIndex((el) => el.id === cur.id)] = cur;
+            return cur;
+          }
+        }, []);
+
         console.log('store에 담긴 post_list ::: ', action.payload.post_list);
         draft.paging = action.payload.paging;
         draft.is_loading = false;
@@ -240,6 +277,7 @@ const actionCreators = {
   getPostFB,
   addPostFB,
   editPostFB,
+  getOnePostFB,
 };
 
 export { actionCreators };
