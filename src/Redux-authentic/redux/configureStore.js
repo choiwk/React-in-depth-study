@@ -9,6 +9,7 @@ import { connectRouter } from 'connected-react-router';
 import User from './modules/user';
 import Post from './modules/post';
 import Image from './modules/image';
+import Comment from './modules/comment';
 
 export const history = createBrowserHistory(); // 우리의 history 객체 생성함.
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user: User,
   post: Post,
   image: Image,
+  comment: Comment,
   router: connectRouter(history), // redux에 history를 넣기 : 자신이 만든 history와 router가 연결됨.
   // 즉 자신의 브라우저 history 정보가 store에 저장됨.
 });
