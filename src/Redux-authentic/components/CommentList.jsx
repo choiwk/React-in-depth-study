@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Image, Text } from '../elements/ImportBridge';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators as commentActions } from '../redux/modules/comment';
 
-const CommentList = () => {
+const CommentList = (props) => {
+  const dispatch = useDispatch();
+  const comment_list = useSelector((state) => state.comment.list);
+
+  const { post_id } = props;
+
+  useEffect(() => {
+    if (!comment_list.post_id) {
+      dispatch(commentActions.getCommentFB(post_id));
+    }
+  }, []);
+
   return (
     <>
-      <Grid></Grid>
+      <Grid>
+        <CommentItem></CommentItem>
+      </Grid>
     </>
   );
 };
@@ -12,10 +27,19 @@ const CommentList = () => {
 export default CommentList;
 
 const CommentItem = (props) => {
+  const { user_profile, user_name, user_id, post_id, contents, insert_dt } =
+    props;
   return (
-    <>
-      <Grid></Grid>
-    </>
+    <Grid is_flex>
+      <Grid is_flex width="auto">
+        <Image shape="circle" />
+      </Grid>
+      <Grid is_flex margin="0px 4px">
+        <Text bold>{user_name}</Text>
+        <Text margin="0px">{contents}</Text>
+        <Text margin="0px">{insert_dt}</Text>
+      </Grid>
+    </Grid>
   );
 };
 
