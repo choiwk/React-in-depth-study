@@ -225,7 +225,7 @@ const getOnePostFB = (id) => {
           { id: doc.id, user_info: {} }
         );
 
-        dispatch(setPost([post], { start: null, next: null, size: 3 }));
+        dispatch(setPost([post]));
       });
   };
 };
@@ -237,7 +237,7 @@ export default handleActions(
         draft.list.push(...action.payload.post_list);
 
         draft.list = draft.list.reduce((acc, cur) => {
-          if (acc.findIndex(((el) => el.id === cur.id) === -1)) {
+          if (acc.findIndex((el) => el.id === cur.id) === -1) {
             return [...acc, cur];
           } else {
             acc[acc.findIndex((el) => el.id === cur.id)] = cur;
@@ -245,8 +245,9 @@ export default handleActions(
           }
         }, []);
 
-        console.log('store에 담긴 post_list ::: ', action.payload.post_list);
-        draft.paging = action.payload.paging;
+        if (action.payload.paging) {
+          draft.paging = action.payload.paging;
+        }
         draft.is_loading = false;
       }),
     [ADD_POST]: (state, action) =>
