@@ -25,13 +25,40 @@ const initialState = {
   is_loading: false,
 };
 
-const getCommentFB = (post_id) => {
-  return function (dispatch, getState, { history }) {};
+const getCommentFB = (post_id = null) => {
+  return function (dispatch, getState, { history }) {
+    if (!post_id) {
+      return;
+    }
+    const commentDB = firestore.collection('comment');
+
+    commentDB
+      .where('post_id', '==', post_id)
+      .orderBy('insert_dt', 'desc')
+      .get()
+      .then((docs) => {
+        let list = [];
+
+        docs.forEach((el) => {
+          console.log('✅', el.data());
+          list.push({ ...el.data(), id: docs.id });
+        });
+        console.log(post_id, list);
+        dispatch(setCommet(post_id, list));
+      })
+      .catch((err) => {});
+  };
 };
 
 export default handleActions(
   {
-    [SET_COMMENT]: (state, action) => produce(state, (draft) => {}),
+    [SET_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        // 방 만들어주기 : let data = {[post_id] : comment_list, ... }
+        // [특정 게시물 페이지] : 댓글
+        draft.list = [action.payload.post_id];
+        draft.list[action.payload.post_id] = action.payload.comment_list;
+      }),
     [ADD_COMMENT]: (state, action) => produce(state, (draft) => {}),
     [LOADING]: (state, action) => produce(state, (draft) => {}),
   },
@@ -41,6 +68,7 @@ export default handleActions(
 const actionCreators = {
   setCommet,
   addComment,
+  getCommentFB,
   loading,
 };
 
