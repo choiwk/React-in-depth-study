@@ -15,7 +15,7 @@ const Header = () => {
   if (is_login && is_session) {
     return (
       <Grid is_flex padding="0 0 30px 0">
-        <Grid _onClick={() => history.push('/')} cursor>
+        <Grid _onClick={() => history.push('/')} cursor="true">
           <Text margin="0px" size="24px" bold>
             WonStargram
           </Text>
@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <Grid is_flex padding="0 0 30px 0">
-      <Grid _onClick={() => history.push('/')} cursor>
+      <Grid _onClick={() => history.push('/')} cursor="true">
         <Text margin="0px" size="24px" bold>
           WonStargram
         </Text>

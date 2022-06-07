@@ -41,7 +41,6 @@ Grid.defaultProps = {
   margin: false,
   bg: false,
   center: false,
-  cursor: false,
   _onClick: () => {},
 };
 
