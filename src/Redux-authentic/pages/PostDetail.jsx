@@ -16,7 +16,14 @@ const PostDetail = (props) => {
   const post_idx = post_list.findIndex((p) => p.id === id);
   const post_data = post_list[post_idx];
 
+  console.log('✅', post_data);
+
   const [post, setPost] = useState(post_data ? post_data : null);
+
+  const accessDenied = () => {
+    alert('로그인을 하셔야 게시글을 확인할 수 있습니다.');
+    history.push('/login');
+  };
 
   useEffect(() => {
     if (post) {
@@ -54,7 +61,7 @@ const PostDetail = (props) => {
           {...post}
           is_me={
             login === false
-              ? history.push('/login')
+              ? accessDenied()
               : post.user_info.user_id === user_info.uid
           }
         />
