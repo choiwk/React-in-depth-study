@@ -15,13 +15,24 @@ const CommentList = (props) => {
     }
   }, []);
 
+  if (!comment_list[post_id] || !post_id) {
+    // 출력할 댓글이 없으면 null으로 화면에 아무것도 표기안시킴.
+    return null;
+  }
+
   return (
     <>
       <Grid>
-        <CommentItem></CommentItem>
+        {comment_list[post_id].map((el, idx) => (
+          <CommentItem key={idx} {...el} />
+        ))}
       </Grid>
     </>
   );
+};
+
+CommentList.defaultProps = {
+  post_id: null,
 };
 
 export default CommentList;
