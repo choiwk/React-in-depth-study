@@ -3,21 +3,40 @@ import styled from 'styled-components/macro';
 import { Text, Grid } from './ImportBridge';
 
 const Input = (props) => {
-  const { type, label, placeholder, _onChange } = props;
+  const { type, label, placeholder, _onChange, multiLine, value } = props;
+
+  if (multiLine) {
+    return (
+      <Grid>
+        {label && <Text margin="0px">{label}</Text>}
+        <ElTextArea
+          rows={10}
+          placeholder={placeholder}
+          onChange={_onChange}
+          value={value}
+        />
+      </Grid>
+    );
+  }
 
   return (
-    <React.Fragment>
-      <Grid></Grid>
+    <Grid>
       <Text margin="0px">{label}</Text>
-      <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
-    </React.Fragment>
+      <ElInput
+        type={type}
+        placeholder={placeholder}
+        onChange={_onChange}
+        value={value}
+      />
+    </Grid>
   );
 };
 
 Input.defaultProps = {
+  multiLine: false,
   type: '',
   label: '',
-  placeholder: '텍스트를 입력해주세요.',
+  placeholder: '',
   _onChange: () => {},
 };
 
