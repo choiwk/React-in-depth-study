@@ -8,7 +8,7 @@ const SET_COMMENT = 'SET_COMMENT';
 const ADD_COMMENT = 'ADD_COMMENT';
 const LOADING = 'LOADING';
 
-const setCommet = createAction(SET_COMMENT, (post_id, comment_list) => ({
+const setComment = createAction(SET_COMMENT, (post_id, comment_list) => ({
   post_id,
   comment_list,
 }));
@@ -44,7 +44,7 @@ const getCommentFB = (post_id = null) => {
           list.push({ ...el.data(), id: docs.id });
         });
         console.log(post_id, list);
-        dispatch(setCommet(post_id, list));
+        dispatch(setComment(post_id, list));
       })
       .catch((err) => {});
   };
@@ -66,7 +66,7 @@ export default handleActions(
 );
 
 const actionCreators = {
-  setCommet,
+  setComment,
   addComment,
   getCommentFB,
   loading,
