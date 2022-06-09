@@ -241,7 +241,7 @@ export default handleActions(
             return [...acc, cur];
           } else {
             acc[acc.findIndex((el) => el.id === cur.id)] = cur;
-            return cur;
+            return acc;
           }
         }, []);
 
