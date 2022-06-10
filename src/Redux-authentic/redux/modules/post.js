@@ -37,7 +37,7 @@ const initialPost = {
 const editPostFB = (post_id = null, post = {}) => {
   return function (dispatch, getState, { history }) {
     if (!post_id) {
-      console.log('게시물 정보가 없어요!');
+      alert('게시물 정보가 없어요!');
       return;
     }
 
@@ -79,8 +79,7 @@ const editPostFB = (post_id = null, post = {}) => {
               });
           })
           .catch((err) => {
-            window.alert('앗! 이미지 업로드에 문제가 있어요!');
-            console.log('앗! 이미지 업로드에 문제가 있어요!', err);
+            alert('앗! 이미지 업로드에 문제가 있어요!', err);
           });
       });
     }
@@ -275,6 +274,7 @@ export default handleActions(
 const actionCreators = {
   setPost,
   addPost,
+  editPost,
   getPostFB,
   addPostFB,
   editPostFB,

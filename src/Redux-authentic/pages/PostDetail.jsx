@@ -31,7 +31,7 @@ const PostDetail = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       {post_data && (
         <Post
           {...post_data}
@@ -44,7 +44,7 @@ const PostDetail = (props) => {
       )}
       <CommentWrite post_id={id} />
       <CommentList post_id={id} />
-    </React.Fragment>
+    </>
   );
 };
 

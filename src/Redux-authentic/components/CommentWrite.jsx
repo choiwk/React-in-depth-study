@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Grid, Input, Text, Button } from '../elements/ImportBridge';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators as commentActions } from '../redux/modules/comment';
+
 const CommentWrite = () => {
+  const dispatch = useDispatch();
   const [commentText, setCommentText] = useState('');
 
   const commentTarget = (e) => {
@@ -10,6 +14,7 @@ const CommentWrite = () => {
 
   const targetValue = () => {
     console.log(commentText);
+    dispatch(commentActions.addCommentFB());
     setCommentText('');
   };
 

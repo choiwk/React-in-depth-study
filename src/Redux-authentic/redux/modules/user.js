@@ -54,8 +54,6 @@ const loginFB = (id, pwd) => {
       auth
         .signInWithEmailAndPassword(id, pwd)
         .then((user) => {
-          console.log(user);
-
           dispatch(
             setUser({
               user_name: user.user.displayName,

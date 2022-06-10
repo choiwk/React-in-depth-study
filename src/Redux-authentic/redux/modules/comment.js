@@ -1,6 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
+import { actionCreators as postActions } from './post';
 import { produce } from 'immer';
 import { firestore } from '../../../shared/Firebase';
+import firebase from 'firebase/app';
 import 'moment';
 import moment from 'moment';
 
@@ -50,6 +52,45 @@ const getCommentFB = (post_id = null) => {
   };
 };
 
+const addCommentFB = (post_id, contents) => {
+  return function (dispatch, getState, { history }) {
+    const commentDB = firestore.collection('comment');
+    const user_info = getState().user.user;
+
+    console.log('📚', user_info);
+    let comment = {
+      post_id: post_id,
+      user_id: user_info.uid,
+      user_name: user_info.user_name,
+      user_profile: user_info.user_profile,
+      contents: contents,
+      insert_dt: moment().format('YY-MM-DD hh:mm'),
+    };
+
+    commentDB.add(comment).then((doc) => {
+      console.log('💻', doc);
+      const postDB = firestore.collection('post');
+      const post = getState().post.list.find((el) => el.id === post.id);
+
+      const increment = firebase.firestore.FieldValue.increment(1);
+      comment = { ...comment, id: doc.id };
+      postDB
+        .doc(post_id)
+        .update({ comment_cnt: increment })
+        .then((_post) => {
+          dispatch(addComment(post_id, comment));
+          if (post) {
+            dispatch(
+              postActions.editPost(post_id, {
+                comment_cnt: parseInt(post.comment_cnt) + 1,
+              })
+            );
+          }
+        });
+    });
+  };
+};
+
 export default handleActions(
   {
     [SET_COMMENT]: (state, action) =>
@@ -69,6 +110,7 @@ const actionCreators = {
   setComment,
   addComment,
   getCommentFB,
+  addCommentFB,
   loading,
 };
 
