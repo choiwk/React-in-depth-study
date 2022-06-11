@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Post from '../components/Post';
 import CommentWrite from '../components/CommentWrite';
 import CommentList from '../components/CommentList';
+import Permit from '../../shared/Permit';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as postActions } from '../redux/modules/post';
 
@@ -42,7 +43,9 @@ const PostDetail = (props) => {
           }
         />
       )}
-      <CommentWrite post_id={id} />
+      <Permit>
+        <CommentWrite post_id={id} />
+      </Permit>
       <CommentList post_id={id} />
     </>
   );
