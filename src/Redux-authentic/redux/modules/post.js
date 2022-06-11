@@ -91,9 +91,9 @@ const addPostFB = (contents = '') => {
     const _user = getState().user.user;
 
     const user_info = {
-      user_name: _user.userName,
+      user_name: _user.user_name,
       user_id: _user.uid,
-      user_profile: _user.userProfile,
+      user_profile: _user.user_profile,
     };
 
     const _post = {

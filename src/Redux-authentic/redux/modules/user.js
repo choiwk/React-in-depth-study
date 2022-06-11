@@ -21,22 +21,22 @@ const initialState = {
   is_login: false, //웹사이트 뜨자마자 로그인 상태 false
 };
 
-const signupFB = (id, pwd, userName) => {
+const signupFB = (id, pwd, user_name) => {
   return function (dispatch, getState, { history }) {
     auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
       auth
         .createUserWithEmailAndPassword(id, pwd)
         .then((user) => {
           auth.currentUser.updateProfile({
-            displayName: userName,
+            displayName: user_name,
           });
         })
         .then(() => {
           dispatch(
             setUser({
-              userName: userName,
+              user_name: user_name,
               id: id,
-              userProfile: '',
+              user_profile: '',
             })
           );
           history.push('/');
@@ -84,8 +84,8 @@ const loginCheckFB = () => {
       if (user) {
         dispatch(
           setUser({
-            userName: user.displayName,
-            userProfile: '',
+            user_name: user.displayName,
+            user_profile: '',
             id: user.email,
             uid: user.uid,
           })

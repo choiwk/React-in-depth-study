@@ -57,28 +57,32 @@ const addCommentFB = (post_id, contents) => {
     const commentDB = firestore.collection('comment');
     const user_info = getState().user.user;
 
-    console.log('📚', user_info);
     let comment = {
       post_id: post_id,
       user_id: user_info.uid,
       user_name: user_info.user_name,
       user_profile: user_info.user_profile,
       contents: contents,
-      insert_dt: moment().format('YY-MM-DD hh:mm'),
+      insert_dt: moment().format('YYYY-MM-DD hh:mm:ss'),
     };
 
+    // firestore에 코멘트 정보를 넣어요!
     commentDB.add(comment).then((doc) => {
-      console.log('💻', doc);
       const postDB = firestore.collection('post');
-      const post = getState().post.list.find((el) => el.id === post.id);
-
-      const increment = firebase.firestore.FieldValue.increment(1);
       comment = { ...comment, id: doc.id };
+
+      const post = getState().post.list.find((l) => l.id === post_id);
+
+      //   firestore에 저장된 값을 +1해줍니다!
+      const increment = firebase.firestore.FieldValue.increment(1);
+
+      // post에도 comment_cnt를 하나 플러스 해줍니다.
       postDB
         .doc(post_id)
         .update({ comment_cnt: increment })
         .then((_post) => {
           dispatch(addComment(post_id, comment));
+          // 리덕스에 post가 있을 때만 post의 comment_cnt를 +1해줍니다.
           if (post) {
             dispatch(
               postActions.editPost(post_id, {
@@ -100,8 +104,14 @@ export default handleActions(
         draft.list = [action.payload.post_id];
         draft.list[action.payload.post_id] = action.payload.comment_list;
       }),
-    [ADD_COMMENT]: (state, action) => produce(state, (draft) => {}),
-    [LOADING]: (state, action) => produce(state, (draft) => {}),
+    [ADD_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list[action.payload.post_id].push(action.payload.comment);
+      }),
+    [LOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_loading = action.payload.is_loading;
+      }),
   },
   initialState
 );
