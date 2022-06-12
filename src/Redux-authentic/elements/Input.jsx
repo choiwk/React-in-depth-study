@@ -3,7 +3,10 @@ import styled from 'styled-components/macro';
 import { Text, Grid } from './ImportBridge';
 
 const Input = (props) => {
-  const { type, label, placeholder, _onChange, multiLine, value } = props;
+  const { type, label, placeholder, _onChange, multiLine, value, is_submit } =
+    props;
+
+  const onSubmit = (e) => {};
 
   if (multiLine) {
     return (
@@ -22,12 +25,16 @@ const Input = (props) => {
   return (
     <Grid>
       <Text margin="0px">{label}</Text>
-      <ElInput
-        type={type}
-        placeholder={placeholder}
-        onChange={_onChange}
-        value={value}
-      />
+      {is_submit ? (
+        <ElInput
+          type={type}
+          placeholder={placeholder}
+          onChange={_onChange}
+          value={value}
+        />
+      ) : (
+        <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
+      )}
     </Grid>
   );
 };
@@ -37,6 +44,7 @@ Input.defaultProps = {
   type: '',
   label: '',
   placeholder: '',
+  is_submit: false,
   _onChange: () => {},
 };
 
