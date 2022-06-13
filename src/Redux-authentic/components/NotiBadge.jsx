@@ -11,10 +11,17 @@ const NotiBadge = (props) => {
 
   useEffect(() => {
     const notiDB = realtime.ref(`noti/${user_id}`);
+
+    notiDB.on('value', (snapshot) => {
+      setIsRead(snapshot.val().read);
+
+      return () => notiDB.off(); // 구독해제하기
+    });
   }, []);
   const notiCheck = () => {
     props._onClick();
   };
+
   return (
     <>
       <Badge
