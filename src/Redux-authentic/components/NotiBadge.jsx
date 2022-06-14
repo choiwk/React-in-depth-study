@@ -9,6 +9,12 @@ const NotiBadge = (props) => {
   const [isRead, setIsRead] = useState(true);
   console.log(props);
 
+  const notiCheck = () => {
+    const notiDB = realtime.ref(`noti/${user_id}`);
+    notiDB.update({ read: true });
+    props._onClick();
+  };
+
   useEffect(() => {
     const notiDB = realtime.ref(`noti/${user_id}`);
 
@@ -18,9 +24,6 @@ const NotiBadge = (props) => {
       return () => notiDB.off(); // 구독해제하기
     });
   }, []);
-  const notiCheck = () => {
-    props._onClick();
-  };
 
   return (
     <>

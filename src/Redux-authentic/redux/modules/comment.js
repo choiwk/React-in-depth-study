@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { actionCreators as postActions } from './post';
 import { produce } from 'immer';
-import { firestore } from '../../../shared/Firebase';
+import { firestore, realtime } from '../../../shared/Firebase';
 import firebase from 'firebase/app';
 import 'moment';
 import moment from 'moment';
@@ -89,6 +89,9 @@ const addCommentFB = (post_id, contents) => {
                 comment_cnt: parseInt(post.comment_cnt) + 1,
               })
             );
+
+            const notiDB = realtime.ref(`noti/${post.user_info.user_id}`);
+            notiDB.update({ read: false });
           }
         });
     });
